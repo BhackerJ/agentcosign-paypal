@@ -1,0 +1,60 @@
+{
+  "scope": "Independent agent source review; original four not blind, delivery variants labeled before new outputs; not human or holdout. Historical summary labels excluded from these denominators.",
+  "labels_sha256": "2a41ac4649cd41f9818f2b530eba12cde266001e5e9d7638c8da6deda4e973cd",
+  "policy_sha256": "b15832dc2a0a60254ee5e91abf68b8fdde96c85443b54fe402d9c26774538e36",
+  "cases": 8,
+  "known_mismatches": 2,
+  "evidence_gaps": 2,
+  "matching_candidates": 4,
+  "intent_disagreements": 0,
+  "results": [
+    {
+      "scenario": "walking-width",
+      "expected": "block",
+      "budget_only": "allow",
+      "intent_aware": "block"
+    },
+    {
+      "scenario": "walking-width",
+      "expected": "allow",
+      "budget_only": "allow",
+      "intent_aware": "allow"
+    },
+    {
+      "scenario": "resolable-work-shoes",
+      "expected": "insufficient_evidence",
+      "budget_only": "allow",
+      "intent_aware": "insufficient_evidence"
+    },
+    {
+      "scenario": "resolable-work-shoes",
+      "expected": "allow",
+      "budget_only": "allow",
+      "intent_aware": "allow"
+    },
+    {
+      "scenario": "resolable-work-shoes-delivery-7",
+      "expected": "allow",
+      "budget_only": "allow",
+      "intent_aware": "allow"
+    },
+    {
+      "scenario": "resolable-work-shoes-delivery-14",
+      "expected": "allow",
+      "budget_only": "allow",
+      "intent_aware": "allow"
+    },
+    {
+      "scenario": "resolable-work-shoes-delivery-15",
+      "expected": "block",
+      "budget_only": "allow",
+      "intent_aware": "block"
+    },
+    {
+      "scenario": "resolable-work-shoes-delivery-unknown",
+      "expected": "insufficient_evidence",
+      "budget_only": "allow",
+      "intent_aware": "insufficient_evidence"
+    }
+  ]
+}

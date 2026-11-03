@@ -1,0 +1,84 @@
+{
+  "id": "resolable-work-shoes",
+  "historical_run": "20261014T071916Z-openclaw-3b0661",
+  "sources": {
+    "person": {
+      "id": "p-0019",
+      "original_sha256": "6608e0ccd7bef0dc78342714d81fcbfdedd9c42a7014c8ade295e93bfdbe0c9d",
+      "excerpts": [
+        {
+          "selector": "particulars/5",
+          "text": "Shoe size 11 wide; flat arches."
+        },
+        {
+          "selector": "particulars/6",
+          "text": "His black leather lace-ups are worn through at the heels from walking hospital floors."
+        },
+        {
+          "selector": "particulars/36",
+          "text": "$800 is the most he would let be spent without a conversation first."
+        }
+      ]
+    },
+    "errand": {
+      "id": "p-0019-e001",
+      "original_sha256": "140e21bdcfcca8ee002cbe76445963dc03d20083037770d3331b1739d68a28cc",
+      "excerpts": [
+        {
+          "selector": "words",
+          "text": "Goal: replace my black work lace-ups, the heels are worn through. Deadline: two weeks. Keep it under $250, and I want a pair that can be resoled, not thrown out."
+        },
+        {
+          "selector": "answers/0/line",
+          "key": "size",
+          "text": "11 wide. Flat arches."
+        },
+        {
+          "selector": "answers/1/line",
+          "key": "style",
+          "text": "Black leather lace-ups. Same as what I wear now."
+        },
+        {
+          "selector": "answers/4/line",
+          "key": "limit",
+          "text": "$250 for the pair. If the right one costs more, tell me before buying."
+        },
+        {
+          "selector": "answers/5/line",
+          "key": "substitutes",
+          "text": "Don't send a medium width. Tell me and give me the fallback."
+        }
+      ]
+    }
+  },
+  "request": "Goal: replace my black work lace-ups, the heels are worn through. Deadline: two weeks. Keep it under $250, and I want a pair that can be resoled, not thrown out.",
+  "budget_cents": 25000,
+  "quantity": 1,
+  "allowed_categories": [
+    "footwear"
+  ],
+  "requirements": {
+    "size": "11",
+    "width": "wide",
+    "unit": "pair",
+    "color": "black",
+    "material": "leather",
+    "style": "lace_up",
+    "resolable": true,
+    "delivery_within_days": 14
+  },
+  "field_sources": {
+    "size": "errand.answers.size + person.particulars",
+    "width": "errand.answers.size/substitutes",
+    "budget_cents": "errand.answers.limit overrides profile ceiling",
+    "resolable": "errand.words",
+    "delivery_within_days": "errand.words: two weeks"
+  },
+  "adaptations": [
+    "Buyer confirms the budget includes shipping and test tax.",
+    "Fictional sandbox merchant and test products; no fulfillment.",
+    "Widths follow explicit merchant labels; letter codes are not universally equivalent."
+  ],
+  "source_disclosure": "Minimal extracts from existing synthetic profiles/tasks. Original full-file hashes identify the historical sources; extracted bytes have a separate manifest hash. Requirements are curated mappings, not automated semantic extraction.",
+  "challenge_first_sku": "work-unknown"
+}

@@ -1,0 +1,43 @@
+{
+  "run": "recorded-work-01",
+  "order_id": "61L113898K399762F",
+  "capture_id": "0JK088713N9840907",
+  "verification": {
+    "order_id": "61L113898K399762F",
+    "capture_id": "0JK088713N9840907",
+    "order_status": "COMPLETED",
+    "capture_status": "COMPLETED",
+    "total_cents": 21034,
+    "currency": "USD",
+    "payee_matches": true,
+    "payer_matches": true,
+    "items_match": true,
+    "payment_verified": true,
+    "checked_at": 1793742707.391833
+  },
+  "post_counts_before": [
+    [
+      "POST",
+      "/v2/checkout/orders",
+      1
+    ],
+    [
+      "POST",
+      "/v2/checkout/orders/61L113898K399762F/capture",
+      1
+    ]
+  ],
+  "post_counts_after": [
+    [
+      "POST",
+      "/v2/checkout/orders",
+      1
+    ],
+    [
+      "POST",
+      "/v2/checkout/orders/61L113898K399762F/capture",
+      1
+    ]
+  ],
+  "no_new_post_requests": true
+}

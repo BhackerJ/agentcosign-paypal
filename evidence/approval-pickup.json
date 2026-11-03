@@ -1,0 +1,12 @@
+{
+  "run": "approval-pickup-01",
+  "purpose": "separate approval pickup footage",
+  "cart_id": "d8688d21b94431384efd7d42",
+  "verification": {
+    "order_status": "APPROVED",
+    "payment_verified": false,
+    "checked_at": 1793742341.167302
+  },
+  "capture_post_count": 0,
+  "captured": false
+}

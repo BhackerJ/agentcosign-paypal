@@ -1,0 +1,32 @@
+[
+  {
+    "scene": 0,
+    "title": "AgentCoSign / Purchase authorization layer for personal agents",
+    "duration": 15.376417,
+    "narration": "Your personal agent shops. AgentCoSign checks the buyer confirmed intent and binds the exact quote. The buyer separately approves the purchase and PayPal payment. Verified receipts return to the agent. Quote eligibility alone never grants permission to pay."
+  },
+  {
+    "scene": 1,
+    "title": "recorded-work-01 / Existing source task \u2192 buyer intent",
+    "duration": 19.877506,
+    "narration": "The main transaction in this demonstration is recorded work zero one. A separately labeled approval pickup is included. AgentCoSign is the purchase authorization and payment layer for personal agents. The buyer confirms a source linked request for wide black leather work shoes that can be resoled, within two weeks and under two hundred fifty dollars."
+  },
+  {
+    "scene": 2,
+    "title": "recorded-work-01 / Actual browser shopper / Deliberately assigned candidate",
+    "duration": 16.522222,
+    "narration": "The real example agent shops through visible browser controls. We deliberately assign a candidate with missing resoling evidence. The agent reads the feedback, removes it and chooses the documented alternative in this same cart. The measured shopper run took twenty eight point four seconds."
+  },
+  {
+    "scene": 3,
+    "title": "SEPARATE APPROVAL PICKUP / approval-pickup-01 / No capture",
+    "duration": 23.578821,
+    "narration": "This approval sequence is a separate pickup, approval pickup zero one. The buyer approves the exact quote and then clicks Pay in PayPal sandbox. A read back confirms this pickup order is approved. It is not captured. This is a different order from the main transaction. Login entry has been omitted. We now return to recorded work zero one for the completed payment and duplicate request verification."
+  },
+  {
+    "scene": 4,
+    "title": "recorded-work-01 / Same order \u00b7 READ-ONLY final refresh",
+    "duration": 29.958776,
+    "narration": "Back to the main transaction, recorded work zero one. This newly recorded final status is a read only refresh of the same completed order. No new payment request was sent. The order and capture are both completed for two hundred ten dollars and thirty four cents. The two previously measured sequential repeat requests returned this same receipt. One capture request and one merchant receipt were recorded. This does not establish concurrent crash safety. All products are fictional and payments use sandbox funds."
+  }
+]

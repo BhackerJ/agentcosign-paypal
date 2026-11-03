@@ -1,0 +1,14 @@
+{
+  "evidence_type": "new_derived_integration_fixture",
+  "source_case_ids": ["walking-width", "cart-extra", "cart-removed"],
+  "merchant_id": "agentcosign-local-test-merchant",
+  "currency": "USD",
+  "shipping_cents": 1000,
+  "tax_basis_points": 600,
+  "disclosure": "Fictional test merchandise. Fixed test shipping and tax, not historical store facts or actual tax advice. No fulfillment or payment.",
+  "products": {
+    "walk-standard": {"name": "Demo Walking Shoe — Standard", "category": "footwear", "unit": "pair", "size": "10.5", "width": "standard", "price_cents": 9900, "available": true},
+    "walk-extra-wide": {"name": "Demo Walking Shoe — Extra Wide", "category": "footwear", "unit": "pair", "size": "10.5", "width": "extra_wide", "price_cents": 9900, "available": true},
+    "care-kit": {"name": "Demo Shoe Care Kit", "category": "care_kit", "unit": "kit", "price_cents": 2450, "available": true}
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "merchant_id": "agentcosign-local-test-merchant",
+  "currency": "USD",
+  "shipping_cents": 1000,
+  "tax_basis_points": 600,
+  "products": {
+    "work-unknown": {
+      "name": "Demo Black Leather Lace-up \u2014 Resoling Not Documented",
+      "category": "footwear",
+      "size": "11",
+      "width": "wide",
+      "unit": "pair",
+      "color": "black",
+      "material": "leather",
+      "style": "lace_up",
+      "resolable": null,
+      "delivery_within_days": 14,
+      "price_cents": 18900,
+      "available": true
+    },
+    "work-resolable": {
+      "name": "Demo Black Leather Lace-up \u2014 Resoling Confirmed",
+      "category": "footwear",
+      "size": "11",
+      "width": "wide",
+      "unit": "pair",
+      "color": "black",
+      "material": "leather",
+      "style": "lace_up",
+      "resolable": true,
+      "delivery_within_days": 14,
+      "price_cents": 18900,
+      "available": true
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "walking-width",
+  "historical_run": "20261013T223403Z-openclaw-fbf3bc",
+  "sources": {
+    "person": {
+      "id": "p-0017",
+      "original_sha256": "13b54233d9a6cce6e330161046f7d4e53eb1bdff6f2a3e97ab3eb69a64dde44c",
+      "excerpts": [
+        {
+          "selector": "particulars/4",
+          "text": "Shoe size 10.5, extra-wide (EE). His arches ache by mid-afternoon."
+        },
+        {
+          "selector": "particulars/6",
+          "text": "Walks about 1.5 miles on neighborhood sidewalks at 6:30 a.m. in walking shoes."
+        },
+        {
+          "selector": "particulars/30",
+          "text": "$200 is the most that may be spent on one thing without asking Reginald first."
+        }
+      ]
+    },
+    "errand": {
+      "id": "p-0017-e004",
+      "original_sha256": "bcd67151ebb4a6ca0f1e8eac4717013ec64743464649fb5304345fcb5c1b336f",
+      "excerpts": [
+        {
+          "selector": "words",
+          "text": "My walking shoes are done. I need a new pair for my morning loop, ten and a half, extra-wide, and don't go past a hundred and fifty."
+        },
+        {
+          "selector": "answers/0/line",
+          "key": "limit",
+          "text": "A hundred and fifty, shipping included. A pair that lasts is worth that to me."
+        },
+        {
+          "selector": "answers/1/line",
+          "key": "size",
+          "text": "Ten and a half, extra-wide, EE."
+        },
+        {
+          "selector": "answers/4/line",
+          "key": "substitutes",
+          "text": "No. If it doesn't come in EE, don't buy it."
+        }
+      ]
+    }
+  },
+  "request": "My walking shoes are done. I need a new pair for my morning loop, ten and a half, extra-wide, and don't go past a hundred and fifty.",
+  "budget_cents": 15000,
+  "quantity": 1,
+  "allowed_categories": [
+    "footwear"
+  ],
+  "requirements": {
+    "size": "10.5",
+    "width": "extra_wide",
+    "unit": "pair"
+  },
+  "field_sources": {
+    "size": "errand.answers.size + person.particulars",
+    "width": "errand.answers.size/substitutes",
+    "budget_cents": "errand.answers.limit overrides profile ceiling",
+    "resolable": null,
+    "delivery_within_days": null
+  },
+  "adaptations": [
+    "Buyer confirms the budget includes shipping and test tax.",
+    "Fictional sandbox merchant and test products; no fulfillment.",
+    "Widths follow explicit merchant labels; letter codes are not universally equivalent."
+  ],
+  "source_disclosure": "Minimal extracts from existing synthetic profiles/tasks. Original full-file hashes identify the historical sources; extracted bytes have a separate manifest hash. Requirements are curated mappings, not automated semantic extraction.",
+  "challenge_first_sku": "walk-standard"
+}

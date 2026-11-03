@@ -1,0 +1,26 @@
+{
+  "merchant_id": "agentcosign-local-test-merchant",
+  "currency": "USD",
+  "shipping_cents": 1000,
+  "tax_basis_points": 600,
+  "products": {
+    "walk-standard": {
+      "name": "Demo Walking Shoe \u2014 Standard",
+      "category": "footwear",
+      "unit": "pair",
+      "size": "10.5",
+      "width": "standard",
+      "price_cents": 9900,
+      "available": true
+    },
+    "walk-extra-wide": {
+      "name": "Demo Walking Shoe \u2014 Extra Wide",
+      "category": "footwear",
+      "unit": "pair",
+      "size": "10.5",
+      "width": "extra_wide",
+      "price_cents": 9900,
+      "available": true
+    }
+  }
+}

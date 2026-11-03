@@ -1,0 +1,3 @@
+# Release privacy check
+
+Explicit allowlist export. Configured API keys, PayPal secret/client ID and token signatures checked without printing them; no matches. No state DBs, raw browser videos, full synthetic profiles, buyer capability URLs, agent keys, .env files (except empty example), private logs or operator home paths exported. Public fixtures are minimized synthetic shopping excerpts; original hashes identify provenance. Sandbox order/capture IDs in selected evidence are references, not login credentials. Final video omits login entry and was visually reviewed; a string scan is not a full audiovisual privacy certification.

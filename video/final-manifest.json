@@ -1,0 +1,15 @@
+{
+  "final_video": "agentcosign-final.mp4",
+  "duration_seconds": 105.398047,
+  "sha256": "8fcca780b1f568f890b12e99a8d690c9c0a86de236fc8ea1faff86ffc81752ba",
+  "checks": [
+    "Full H264/AAC decode passed",
+    "Opening architecture frame inspected",
+    "Final read-only receipt frame inspected",
+    "39 contract tests passed",
+    "No new provider POST requests during final refresh"
+  ],
+  "main_run": "recorded-work-01",
+  "separate_approval_pickup": "approval-pickup-01",
+  "published": false
+}
