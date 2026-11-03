@@ -98,15 +98,19 @@ class App:
     try:gate=self.s.assessment(self.task,q)['intent_aware_quote_policy']['gate'];approved=bool(self.s.approval_for(self.task,q))
     except Refused:gate='expired';approved=False
     h+='<section>'
-    if gate=='expired' and not purchase:h+='<h2>Quote expired</h2>'+form('refresh','Get a fresh quote',hidden('quote',q['quote_id']))
+    if purchase:
+     h+='<h2>Existing PayPal order</h2><p>Status checks read the existing order; they never create or capture a payment.</p>'+form('check','Check PayPal status')
+     if gate=='expired':
+      h+='<p>The quote has expired. Capture is disabled; your existing order and approval remain recorded for reconciliation. Check its status before taking any further action. This prototype does not automatically renew or replace an existing order. Do not create another order as a retry.</p>'
+     elif gate!='allow' or not approved:
+      h+='<p>Capture is unavailable because exact purchase approval or matching quote evidence is missing. Check the existing order status; no replacement order will be created.</p>'
+     elif purchase['state']=='ready_to_capture':h+=form('capture','Complete approved sandbox payment')
+     elif purchase['state']=='waiting_for_buyer':h+='<a href="'+esc(purchase['approval_url'])+'">Continue PayPal approval</a>'
+    elif gate=='expired':h+='<h2>Quote expired</h2>'+form('refresh','Get a fresh quote',hidden('quote',q['quote_id']))
     elif gate!='allow':h+='<h2>Purchase needs attention</h2><p>Required facts are missing or do not match. No payment is permitted.</p>'
     elif not approved:h+=form('approve',f'Approve exact purchase · ${q["total_cents"]/100:.2f}',hidden('quote',q['quote_id']))
     elif not self.p:h+='<p>Purchase approved. Configure PayPal sandbox to enable payment; no payment has occurred.</p>'
-    elif not purchase:h+=form('pay','Continue to PayPal sandbox',hidden('quote',q['quote_id']))
-    else:
-     h+=form('check','Check PayPal status')
-     if purchase['state']=='ready_to_capture':h+=form('capture','Complete approved sandbox payment')
-     elif purchase['state']=='waiting_for_buyer':h+='<a href="'+esc(purchase['approval_url'])+'">Continue PayPal approval</a>'
+    else:h+=form('pay','Continue to PayPal sandbox',hidden('quote',q['quote_id']))
     h+='</section>'
   if developer:
    purchase_now=self.purchase()
@@ -140,7 +144,8 @@ def handler(app):
    try:
     path=urlsplit(self.path).path
     if path.startswith('/enter/'):self.send(303,location='/',cookie=app.s.buyer_exchange(path[7:]));return
-    if path in ('/buyer/paypal-return','/buyer/paypal-cancel'):self.send(303,location='/');return
+    if path in ('/buyer/paypal-return','/buyer/paypal-cancel'):
+     self.send(200,'<!doctype html><html lang="en"><meta charset="utf-8"><title>Return to your purchase</title><h1>Return to your purchase</h1><p>This return does not prove approval or payment. Continue to your buyer page, then check the existing PayPal order.</p><a href="/">Continue to buyer review</a><p>If your buyer session has expired, restart the local service and open the new one-use buyer URL from your private state directory. The recorded order is preserved.</p></html>');return
     if path=='/api/purchase':self.agent();self.send(200,json.dumps(app.api()),json_body=True);return
     if path not in ('/','/developer'):raise Refused(404,'Unknown page')
     buyer=app.s.buyer_session(self.session());self.send(200,app.page(buyer,path=='/developer'))

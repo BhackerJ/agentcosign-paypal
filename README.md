@@ -45,3 +45,7 @@ Original full-file hashes identify historical sources; the fixture manifest veri
 ## License and reproduction
 
 MIT licensed; see LICENSE. Public dependency licenses remain with their respective packages. See TESTING.md and submission/CLEAN-REPRODUCTION.md for the credential-free clean-environment checks. The real model and sandbox paths require your own provider access; no model credits or hosted judge service are included.
+
+## Return and expiry recovery
+
+After PayPal return/cancel, use Continue to buyer review, then check the existing order. A return URL never proves payment. Existing-order GET checks remain available after quote expiry; capture does not. Fresh quote replacement is supported only when no provider order exists. See TESTING.md for session renewal and conservative recovery limits.

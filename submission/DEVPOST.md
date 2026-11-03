@@ -24,7 +24,7 @@ In recorded-work-01, the real browser shopper completed the deliberately assigne
 
 The video includes a separately labeled approval-only pickup, approval-pickup-01. That is a different order: APPROVED, not captured. We do not present the two recordings as one continuous transaction.
 
-Thirty-nine contract tests cover cart, buyer approval, payment and delivery boundaries. Eight controlled inputs were compared against separately authored agent-review labels: four matching candidates allowed, two conflicts blocked and two missing-evidence cases paused. Original cases were not blind; this is not human-labeled or held-out population performance evidence.
+Forty-two contract tests cover cart, buyer approval, payment and delivery boundaries. Eight controlled inputs were compared against separately authored agent-review labels: four matching candidates allowed, two conflicts blocked and two missing-evidence cases paused. Original cases were not blind; this is not human-labeled or held-out population performance evidence.
 
 ## Challenges and limitations
 

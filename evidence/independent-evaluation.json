@@ -1,6 +1,6 @@
 {
   "scope": "Independent agent source review; original four not blind, delivery variants labeled before new outputs; not human or holdout. Historical summary labels excluded from these denominators.",
-  "labels_sha256": "2a41ac4649cd41f9818f2b530eba12cde266001e5e9d7638c8da6deda4e973cd",
+  "labels_sha256": "a89fbaed6a170b3b2fca38c06cada3dc14bbd3c2760476dad2b4eb19c9b37635",
   "policy_sha256": "b15832dc2a0a60254ee5e91abf68b8fdde96c85443b54fe402d9c26774538e36",
   "cases": 8,
   "known_mismatches": 2,
