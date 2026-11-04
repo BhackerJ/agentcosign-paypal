@@ -38,20 +38,21 @@ PYTHONPATH=app:tests python -m unittest discover -s tests
 
 The main recorded-work-01 transaction completed a $210.34 sandbox payment, Order/Capture GET verification and two sequential repeat checks: one capture POST and one merchant receipt. The separately labeled approval-pickup-01 is an approval-only order, not captured. Final result footage refreshes the same main order read-only. See VIDEO.md for exact run identities. The final video remains local until owner approval.
 
-The two source mappings are curated; no generic profile extraction or Muse/Instinct integration is claimed. Buyer/developer views share authentication. This is a loopback prototype. Model usage requires provider access and may incur cost. Eight controlled cases have independent-agent source-review labels, not human or held-out benchmark evidence. Delivery days are explicit fictional merchant commitments from a common order-date anchor.
+The two source mappings are curated; no generic profile extraction or Muse/Instinct integration is claimed. Buyer/developer views share authentication. The legacy server is a loopback prototype; the isolated judge entry has separate hosted acceptance below. Model usage requires provider access and may incur cost. Eight controlled cases have independent-agent source-review labels, not human or held-out benchmark evidence. Delivery days are explicit fictional merchant commitments from a common order-date anchor.
 
 Original full-file hashes identify historical sources; the fixture manifest verifies the separately minimized extracts. No full profiles, addresses, private harness or credentials are required to install this release.
 
 ## License and reproduction
 
-MIT licensed; see LICENSE. Public dependency licenses remain with their respective packages. See TESTING.md and submission/CLEAN-REPRODUCTION.md for the credential-free clean-environment checks. The real model and sandbox paths require your own provider access; no model credits or hosted judge service are included.
+MIT licensed; see LICENSE. Public dependency licenses remain with their respective packages. See TESTING.md and submission/CLEAN-REPRODUCTION.md for the credential-free clean-environment checks. The real model and sandbox paths require your own provider access; local reproduction does not include provider credits. Hosted availability is noted below.
 
 ## Return and expiry recovery
 
 After PayPal return/cancel, use Continue to buyer review, then check the existing order. A return URL never proves payment. Existing-order GET checks remain available after quote expiry; capture does not. Fresh quote replacement is supported only when no provider order exists. See TESTING.md for session renewal and conservative recovery limits.
 
-## Judge entry in development
+## Session-isolated judge entry
 
 The new session-isolated example-agent entry is documented in [JUDGE.md](JUDGE.md).
-It adds buyer-written draft intents and a browser-only entry path. It has local
-mock-based regression coverage; hosted and live-model acceptance is pending.
+It adds buyer-written draft intents and a browser-only entry path. It has 60 local regression tests plus live-model and hosted browser acceptance.
+The Render service is currently **suspended by owner request**, and hosted PayPal
+payment is disabled. [Hosted results and separate prior payment evidence](submission/P0-HOSTED-ACCEPTANCE.md).

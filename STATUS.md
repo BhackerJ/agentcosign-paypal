@@ -1,5 +1,7 @@
 # Current release status
 
+**Latest P0:** Render hosted acceptance passed, then the service was suspended at the owner’s request. Three original requests reached confirmation; one real shopper reached a $210.34 eligible quote. Hosted payment is disabled. See [hosted acceptance](submission/P0-HOSTED-ACCEPTANCE.md). Earlier entries below are historical.
+
 Final submission-video: 1:45.40, held locally pending owner review and upload. Earlier edits are audit history and superseded. See [VIDEO.md](VIDEO.md) for run identities and recording boundaries.
 
 - Standalone example browser agent uses public Anthropic and Playwright dependencies; private harness is not required.

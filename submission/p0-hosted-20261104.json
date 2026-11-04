@@ -1,0 +1,47 @@
+{
+  "mode": "hosted_render_live_acceptance",
+  "origin": "https://agentcosign-paypal-p0.onrender.com",
+  "deployed_commit": "e0e220e",
+  "cases": [
+    {
+      "case": 1,
+      "request": "Find one pair of black leather lace-up shoes in size 11 wide. They must be resoleable and arrive within 16 days. My maximum is $240 including delivery and tax.",
+      "original_text_retained": true,
+      "confirmation_page": true,
+      "secure_httponly_strict_cookies": true,
+      "intent_confirmation": "automated synthetic browser acceptance, not human confirmation",
+      "shopper_seconds": 22.2,
+      "authorization_api_gate": "allow",
+      "quote_total_cents": 21034,
+      "capture_disabled_http_status": 409,
+      "unauthenticated_agent_api_status": 403
+    },
+    {
+      "case": 2,
+      "request": "I need one pair of walking shoes, size 9 extra wide, arriving within 12 days. Spend no more than $130 total including shipping and tax.",
+      "original_text_retained": true,
+      "confirmation_page": true,
+      "secure_httponly_strict_cookies": true,
+      "intent_confirmation": "automated synthetic browser acceptance, not human confirmation",
+      "unauthenticated_agent_api_status": 403
+    },
+    {
+      "case": 3,
+      "request": "Buy one pair of black leather shoes in size 11 wide, with documented resoling support, delivered within 10 days. The total must stay under $220.",
+      "original_text_retained": true,
+      "confirmation_page": true,
+      "secure_httponly_strict_cookies": true,
+      "intent_confirmation": "automated synthetic browser acceptance, not human confirmation",
+      "unauthenticated_agent_api_status": 403
+    }
+  ],
+  "new_payments": 0,
+  "after_render_restart_request": {
+    "same_browser_session_retained": true,
+    "confirmed_intent_retained": true,
+    "quote_total_cents": 21034,
+    "new_model_calls": 0,
+    "new_payment_calls": 0
+  },
+  "final_service_status": "suspended_by_owner_request"
+}

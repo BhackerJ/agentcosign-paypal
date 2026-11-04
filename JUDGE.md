@@ -1,6 +1,9 @@
-# Session-isolated judge entry — local P0 implementation
+# Session-isolated judge entry
 
-This entry is under development; it is not the published judge deployment.
+Render acceptance passed at https://agentcosign-paypal-p0.onrender.com, but the
+service is now **suspended at the owner’s request**. Resume is required before
+judges can use it. Hosted payment is disabled; prior local payment evidence is
+separately identified in [the acceptance report](submission/P0-HOSTED-ACCEPTANCE.md).
 The existing single-task `app/server.py` workflow remains supported.
 
 ## Run locally
@@ -69,15 +72,15 @@ It does **not** establish live Claude accuracy, real PayPal success, a new
 shopping run, concurrency exactly-once guarantees, or production readiness.
 Old payment evidence remains associated with its original run IDs.
 
-## Hosting preparation (not deployed)
+## Hosting configuration
 
-`deployment/Dockerfile` is a draft container build for a single service instance.
+`deployment/Dockerfile` is the verified container build for a single service instance.
 Configure an HTTPS `PUBLIC_ORIGIN`, persistent disk at `/var/data`, model secret
 in the provider environment, and the sandbox config as secret file
 `/etc/secrets/paypal.private.env`. `/health` is a liveness endpoint only.
 Do not scale to multiple processes: queue and store locks are process-local.
-The image build, reverse-proxy behavior, provider billing cap, non-sleeping plan,
-credentials distribution, and service availability through December 15 remain
-to be validated before publishing this entry.
+Image build, HTTPS cookie/Origin behavior and live hosted shopping passed.
+Judge access distribution, operating budget and availability through December 15
+remain open; the service is suspended. No service-wide hard spending cap is claimed.
 
-Original walking-shoe and documented-resoling requests have now passed targeted live extraction and clean-browser confirmation tests. Strict “under $N” budgets exclude that amount by one cent. Local Linux amd64 container shopping/API and restart acceptance passed with PayPal disabled; hosted acceptance is still pending. Full regression count: 60.
+Original walking-shoe and documented-resoling requests have now passed targeted live extraction and clean-browser confirmation tests. Strict “under $N” budgets exclude that amount by one cent. Local Linux amd64 container shopping/API and restart acceptance passed with PayPal disabled; hosted acceptance also passed; see the report above. Full regression count: 60.

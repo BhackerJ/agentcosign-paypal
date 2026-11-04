@@ -1,3 +1,13 @@
+# Current deployment status
+
+Render deployment and clean-browser acceptance completed; the service was then
+suspended at the owner’s request. Auto-deploy is off. No new PayPal payment,
+video upload or formal submission occurred. See
+[the hosted acceptance report](../submission/P0-HOSTED-ACCEPTANCE.md).
+
+The following is the historical pre-deployment review; its approval blockers
+were resolved by subsequent owner authorization and card setup.
+
 # P0 deployment review
 
 No image has been pushed, no service has been deployed, and no video uploaded.
