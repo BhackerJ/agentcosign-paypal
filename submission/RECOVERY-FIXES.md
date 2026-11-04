@@ -6,3 +6,7 @@
 - Public labels now contain only the eight reproducible controlled inputs. Every evidence pointer resolves to a shipped fixture JSON path/selector. Historical-summary reviews were removed from this public export, without adding them to evaluation denominators.
 - Verification: 42 local contracts, including three new recovery tests; eight controlled label comparisons; both English UI/API smoke scenarios. Payment provider is mocked/forbidden in these checks. No new real order, capture, model call, video upload or Devpost submission.
 - Complete real-model integration by an external judge/user still requires separately documented model and sandbox access. This revision does not claim that independent full-flow exercise has happened.
+
+## Failed capture recovery
+
+A refused or unknown capture no longer leaves the buyer without a next step. A refused capture returns to ready with a new request ID and offers another PayPal payment method. A timeout, server error or restart stays in reconciliation and retries with the same request ID after reading the order back. Five contracts cover this with a fake provider; no new order, charge or live sandbox decline was exercised.

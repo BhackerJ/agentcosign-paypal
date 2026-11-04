@@ -247,7 +247,17 @@ class App:
                         h += '<p>The quote has expired. Capture is disabled; your existing order and approval remain recorded for reconciliation. Check its status before taking any further action. This prototype does not automatically renew or replace an existing order. Do not create another order as a retry.</p>'
                     elif gate != 'allow' or not approved:
                         h += '<p>Capture is unavailable because exact purchase approval or matching quote evidence is missing. Check the existing order status; no replacement order will be created.</p>'
-                    elif purchase['state'] == 'ready_to_capture':
+                    elif purchase['state'] in ('ready_to_capture', 'reconciliation_required'):
+                        if v.get('capture_rejected'):
+                            h += (
+                                '<p>PayPal declined this payment ('
+                                + esc(v['capture_rejected'])
+                                + '). <a href="'
+                                + esc(purchase['approval_url'])
+                                + '">Choose another payment method in PayPal</a>, or try again.</p>'
+                            )
+                        elif purchase['state'] == 'reconciliation_required':
+                            h += '<p>The last payment attempt did not report a result. Trying again checks PayPal first and cannot charge twice for this order.</p>'
                         h += form('capture', 'Complete approved sandbox payment')
                     elif purchase['state'] == 'waiting_for_buyer':
                         h += '<a href="' + esc(purchase['approval_url']) + '">Continue PayPal approval</a>'

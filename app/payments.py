@@ -24,6 +24,7 @@ def cents(amount):
 class Payments:
     def __init__(self, store, client, config):
         self.store, self.client, self.config = store, client, config
+        self.capture_in_flight = set()
         store.payments = self
         with store.lock, store.db:
             store.db.executescript('''
@@ -159,7 +160,16 @@ class Payments:
                 current = self.get(task)
                 if current['capture_id']:
                     raise Refused(409, 'Previously recorded capture missing from this provider response')
-                state = current['state'] if current['state'] == 'capturing' else ('ready_to_capture' if order['status'] == 'APPROVED' else 'waiting_for_buyer')
+                rejected = json.loads(current['verification'] or '{}').get('capture_rejected')
+                if rejected and order['status'] == 'APPROVED':
+                    result['capture_rejected'] = rejected
+                if current['state'] == 'capturing':
+                    # Nothing in flight here means a restart interrupted the capture; its outcome is unknown.
+                    state = 'capturing' if task in self.capture_in_flight else 'reconciliation_required'
+                elif current['state'] == 'reconciliation_required':
+                    state = current['state']
+                else:
+                    state = 'ready_to_capture' if order['status'] == 'APPROVED' else 'waiting_for_buyer'
                 self.store.db.execute('UPDATE purchases SET state=?,verification=? WHERE purchase_id=?', (state, json.dumps(result), purchase['purchase_id']))
             return result
         if len(captures) != 1:
@@ -210,12 +220,26 @@ class Payments:
             if current['state'] == 'capturing':
                 raise Refused(409, 'Capture outcome unknown or in progress; use reconciliation, do not create another purchase')
             self.store.db.execute("UPDATE purchases SET state='capturing' WHERE purchase_id=?", (purchase['purchase_id'],))
+            self.capture_in_flight.add(task)
+            request_id = current['capture_request_id']
         try:
-            self.client.request('POST', '/v2/checkout/orders/'+purchase['order_id']+'/capture', {}, purchase['capture_request_id'])
-        except ProviderFailure:
-            # Keep capturing: a timeout/error is not evidence that no charge happened.
+            self.client.request('POST', '/v2/checkout/orders/'+purchase['order_id']+'/capture', {}, request_id)
+        except ProviderFailure as failure:
+            self._capture_failed(purchase, failure)
             raise
+        finally:
+            self.capture_in_flight.discard(task)
         return self.reconcile(task)
+
+    def _capture_failed(self, purchase, failure):
+        with self.store.lock, self.store.db:
+            if 400 <= failure.status < 500 and failure.status not in (408, 409, 425, 429):
+                # PayPal refused this request, so a retry is a new request. capture() reads the order back first.
+                self.store.db.execute('UPDATE purchases SET state=?,capture_request_id=?,verification=? WHERE purchase_id=?',
+                                      ('ready_to_capture', str(uuid.uuid4()), json.dumps({'capture_rejected': failure.code, 'payment_verified': False}), purchase['purchase_id']))
+            else:
+                # A timeout or server error is not evidence that no charge happened: retry only with the same request ID.
+                self.store.db.execute("UPDATE purchases SET state='reconciliation_required' WHERE purchase_id=?", (purchase['purchase_id'],))
 
 
 def render_payment(store, buyer):
@@ -248,7 +272,9 @@ def render_payment(store, buyer):
                     body += f'<p>Provider order status: {esc(verification.get("order_status", "unknown"))}</p>'
                 if purchase['approval_url'] and purchase['state'] == 'waiting_for_buyer':
                     body += f'<p><a href="{esc(purchase["approval_url"])}">Open the existing PayPal sandbox approval</a></p>'
-                if approved_quote and purchase['state'] == 'ready_to_capture':
+                if verification.get('capture_rejected') and purchase['approval_url']:
+                    body += f'<p>PayPal declined this payment ({esc(verification["capture_rejected"])}). <a href="{esc(purchase["approval_url"])}">Choose another payment method in PayPal</a>, or try again.</p>'
+                if approved_quote and purchase['state'] in ('ready_to_capture', 'reconciliation_required'):
                     body += f'<form method="post" action="/buyer/capture">{csrf}<button>Capture sandbox USD {money(quote["total_cents"])}</button></form>'
             body += f'<form method="post" action="/buyer/reconcile">{csrf}<button class="secondary">Check existing PayPal payment status</button></form>'
     if approved_quote and (not purchase or not purchase['order_id']):

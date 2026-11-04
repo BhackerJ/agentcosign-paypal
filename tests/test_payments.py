@@ -8,7 +8,7 @@ import urllib.parse
 
 import test_bridge
 from shop import Refused, Store, serve
-from payments import Payments
+from payments import Payments, render_payment
 from paypal_sandbox import ProviderFailure, SandboxClient
 
 CONFIG = {'PAYPAL_ENV': 'sandbox', 'PAYPAL_MERCHANT_ID': 'MERCHANT00001', 'PAYPAL_BUYER_ID': 'BUYER00000001'}
@@ -22,6 +22,8 @@ class FakePayPal:
         self.calls = []
         self.timeout_create = False
         self.timeout_capture = False
+        self.capture_failures = []
+        self.during_capture = None
 
     def request(self, method, path, body=None, request_id=None):
         self.calls.append((method, path, copy.deepcopy(body), request_id))
@@ -38,6 +40,10 @@ class FakePayPal:
         if method == 'GET' and path.startswith('/v2/checkout/orders/'):
             return copy.deepcopy(self.order)
         if method == 'POST' and path.endswith('/capture'):
+            if self.during_capture:
+                self.during_capture()
+            if self.capture_failures:
+                raise self.capture_failures.pop(0)
             self.capture = {'id': 'CAPTURE0000000001', 'status': 'COMPLETED', 'final_capture': True,
                             'amount': copy.deepcopy(self.order['purchase_units'][0]['amount']),
                             'supplementary_data': {'related_ids': {'order_id': self.order['id']}}}
@@ -114,6 +120,72 @@ class SandboxPaymentContracts(unittest.TestCase):
             self.payments.capture(session, csrf)
         self.assertTrue(self.payments.capture(session, csrf)['payment_verified'])
         self.assertEqual(sum(m == 'POST' and p.endswith('/capture') for m, p, _, _ in self.api.calls), 1)
+
+    def capture_request_ids(self):
+        return [request_id for m, p, _, request_id in self.api.calls if m == 'POST' and p.endswith('/capture')]
+
+    def test_rejected_capture_can_be_retried_with_a_new_request_id(self):
+        task, q, session, csrf = self.prepare()
+        self.start(q, session, csrf)
+        self.api.approve()
+        self.api.capture_failures = [ProviderFailure(422, 'INSTRUMENT_DECLINED')]
+        with self.assertRaises(ProviderFailure):
+            self.payments.capture(session, csrf)
+        purchase = self.payments.get(task['task_id'])
+        self.assertEqual(purchase['state'], 'ready_to_capture')
+        self.assertEqual(self.payments.reconcile(task['task_id'])['capture_rejected'], 'INSTRUMENT_DECLINED')
+        self.assertTrue(self.payments.capture(session, csrf)['payment_verified'])
+        first, second = self.capture_request_ids()
+        self.assertNotEqual(first, second)
+
+    def test_unknown_capture_outcome_retries_the_same_request_id(self):
+        task, q, session, csrf = self.prepare()
+        self.start(q, session, csrf)
+        self.api.approve()
+        self.api.capture_failures = [ProviderFailure()]
+        with self.assertRaises(ProviderFailure):
+            self.payments.capture(session, csrf)
+        self.assertEqual(self.payments.get(task['task_id'])['state'], 'reconciliation_required')
+        self.payments.reconcile(task['task_id'])
+        self.assertEqual(self.payments.get(task['task_id'])['state'], 'reconciliation_required')
+        self.assertTrue(self.payments.capture(session, csrf)['payment_verified'])
+        first, second = self.capture_request_ids()
+        self.assertEqual(first, second)
+
+    def test_capture_interrupted_by_restart_can_be_retried(self):
+        task, q, session, csrf = self.prepare()
+        self.start(q, session, csrf)
+        self.api.approve()
+        with self.store.lock, self.store.db:
+            self.store.db.execute("UPDATE purchases SET state='capturing' WHERE task_id=?", (task['task_id'],))
+        restarted = Payments(self.store, self.api, CONFIG)
+        self.assertTrue(restarted.capture(session, csrf)['payment_verified'])
+
+    def test_capture_in_flight_refuses_a_second_capture(self):
+        _, q, session, csrf = self.prepare()
+        self.start(q, session, csrf)
+        self.api.approve()
+        refused = []
+
+        def second_click():
+            self.api.during_capture = None
+            with self.assertRaises(Refused) as caught:
+                self.payments.capture(session, csrf)
+            refused.append(caught.exception.status)
+
+        self.api.during_capture = second_click
+        self.assertTrue(self.payments.capture(session, csrf)['payment_verified'])
+        self.assertEqual(refused, [409])
+        self.assertEqual(len(self.capture_request_ids()), 1)
+
+    def test_buyer_page_offers_a_retry_after_an_unknown_capture_outcome(self):
+        task, q, session, csrf = self.prepare()
+        self.start(q, session, csrf)
+        self.api.approve()
+        self.api.capture_failures = [ProviderFailure()]
+        with self.assertRaises(ProviderFailure):
+            self.payments.capture(session, csrf)
+        self.assertIn('/buyer/capture', render_payment(self.store, self.store.buyer_session(session)))
 
     def test_mismatched_payee_payer_items_or_total_prevent_capture(self):
         _, q, session, csrf = self.prepare()
