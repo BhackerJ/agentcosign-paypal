@@ -1,0 +1,22 @@
+# Review template only: not applied. Replace image URL with an approved private image.
+# Publishing that image and creating the paid service require owner confirmation.
+services:
+  - type: web
+    name: agentcosign-p0
+    runtime: image
+    image:
+      url: REPLACE_WITH_PRIVATE_REGISTRY_IMAGE_AND_DIGEST
+    plan: standard
+    numInstances: 1
+    healthCheckPath: /health
+    disk:
+      name: judge-state
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PUBLIC_ORIGIN
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+# PAYPAL_CONFIG is deliberately absent: hosted acceptance must not create payments.
+# Do not copy the paid run's SQLite stores or cookies into this service.

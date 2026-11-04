@@ -10,3 +10,32 @@ Final submission-video: 1:45.40, held locally pending owner review and upload. E
 - Two existing synthetic profile/task source pairs are minimized and hash-linked. Mappings are curated, not general automated intent extraction.
 - Eight controlled inputs compared against independent-agent source-review labels. Four positive matches, two explicit conflicts, two evidence gaps; no disagreements. Original four non-blind, new delivery variants labeled before outputs. Not human labels or holdout performance.
 - MIT release prepared with credential-free clean Python 3.12 reproduction. External integrator reproduction, YouTube upload and Devpost submission remain incomplete. Public repository publication status is recorded in submission/RELEASE.md.
+
+## 2026-11-04 — local P0 judge-entry implementation
+
+Added natural-language draft extraction, separate example-agent and buyer pages,
+session-isolated stores and agent keys, queued browser shopping, resource limits,
+and a deployment scaffold. Existing CAPTURE payment flow is preserved.
+
+Validation: 56 local tests passed (47 existing + 9 new). New extraction tests
+inject model output; new payment tests use FakePayPal. No new real model run,
+PayPal transaction, recording, deployment, public push or upload was performed.
+See [JUDGE.md](JUDGE.md) for remaining live-model, hosting and credential gates.
+
+
+## 2026-11-04 — new local live payment acceptance
+
+Existing credentials were reused without disclosure. Live draft extraction and
+browser shopping reached the authorization API. Following human PayPal approval,
+the new isolated P0 cart completed capture and order/capture GET reconciliation.
+Two sequential repeat requests returned the same capture: one capture POST and
+one local merchant receipt. Amount: USD 210.34. This is new-run evidence, not old
+recording reuse, and does not prove concurrent exactly-once behavior.
+
+Two live-acceptance fixes (fenced model JSON and same-origin form referrer policy)
+have regression coverage; 58 tests passed before payment verification. Natural
+language acceptance included rewritten requests after refusals; do not claim
+3/3 first-attempt accuracy. Hosting, external browser acceptance and operating
+limits remain pending. No public push or upload was performed.
+
+Original-request follow-up: both refused inputs now reach confirmation verbatim in live-model clean-browser tests. Strict under-budget parsing and walking type are preserved. Final regression: 60 passing tests. Local amd64 container shopping/API, second-session isolation and restart checks pass with zero provider calls. Render configuration is prepared but unsubmitted; no deployment or public push is claimed.

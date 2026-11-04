@@ -31,6 +31,9 @@ def run_shopper(app):
     trace = []
     messages = []
     passed = False
+    used_tokens = 0
+    token_limit = getattr(app, 'shopper_max_tokens', 150000)
+    time_limit = getattr(app, 'shopper_max_seconds', 300)
     initial_empty = not bool(s.snapshot(task)['items'])
     model = os.environ.get('SHOPPER_MODEL', 'claude-sonnet-4-6')
     client = anthropic.Anthropic(max_retries=0, timeout=60)
@@ -54,19 +57,18 @@ def run_shopper(app):
             '. This is a deliberately staged recovery test. Initially add SKU '
             + app.fixture['challenge_first_sku']
             + ' through the UI, then inspect its feedback and correct the SAME cart.'
-            if initial_empty
-            else '. This is a resumed NONEMPTY cart. Do not add the challenge candidate again. Inspect the current cart and preserve correct products.'
+            if initial_empty and app.fixture.get('challenge_first_sku')
+            else '. Inspect the available products and current cart. Choose products from buyer requirements; preserve any correct products already in the cart.'
         )
         + '  Select only one qualifying pair. Unknown required facts cannot pass. Use visible controls only. Never visit buyer/payment pages. Finish only after reading the final cart and its total. Do not claim payment.'
     )
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=True)
-            context = browser.new_context(
-                viewport={'width': 1280, 'height': 900},
-                record_video_dir=str(app.out / 'video'),
-                record_video_size={'width': 1280, 'height': 900},
-            )
+            options = {'viewport': {'width': 1280, 'height': 900}}
+            if getattr(app, 'record_video', True):
+                options.update(record_video_dir=str(app.out / 'video'), record_video_size={'width': 1280, 'height': 900})
+            context = browser.new_context(**options)
             allowed_origin = merchant.origin
 
             def route(r):
@@ -88,11 +90,17 @@ def run_shopper(app):
                 }
             ]
             for turn in range(35):
-                if time.monotonic() - start > 300:
+                if time.monotonic() - start > time_limit:
                     raise TimeoutError('Shopper time limit')
+                # Conservatively reserve the serialized UTF-8 input plus output before each call.
+                reservation = len(json.dumps({'messages': messages, 'tools': [tool]}, ensure_ascii=False).encode()) + 4096 + 1200
+                if used_tokens + reservation > token_limit:
+                    raise RuntimeError('Shopper token budget reached; cart preserved')
                 response = client.messages.create(
+                    timeout=max(1, min(60, time_limit - (time.monotonic() - start))),
                     model=model, max_tokens=1200, tools=[tool], messages=messages
                 )
+                used_tokens += response.usage.input_tokens + response.usage.output_tokens
                 messages.append(
                     {
                         'role': 'assistant',
@@ -154,6 +162,7 @@ def run_shopper(app):
                     outputs.append(
                         {'type': 'tool_result', 'tool_use_id': b.id, 'content': content, 'is_error': error}
                     )
+                app.job = 'Browser shopper: completed ' + str(len(trace)) + ' actions. No payment initiated.'
                 messages.append({'role': 'user', 'content': outputs})
                 if finished:
                     break
@@ -176,7 +185,8 @@ def run_shopper(app):
                     'seconds': round(time.monotonic() - start, 1),
                     'passed': passed,
                     'model': model,
-                    'initial_wrong_candidate_deliberately_assigned': initial_empty,
+                    'initial_wrong_candidate_deliberately_assigned': bool(initial_empty and app.fixture.get('challenge_first_sku')),
+                    'model_tokens': used_tokens,
                     'actions': trace,
                     'items': st['items'],
                     'quote': st['quote'],

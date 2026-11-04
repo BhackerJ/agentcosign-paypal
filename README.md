@@ -49,3 +49,9 @@ MIT licensed; see LICENSE. Public dependency licenses remain with their respecti
 ## Return and expiry recovery
 
 After PayPal return/cancel, use Continue to buyer review, then check the existing order. A return URL never proves payment. Existing-order GET checks remain available after quote expiry; capture does not. Fresh quote replacement is supported only when no provider order exists. See TESTING.md for session renewal and conservative recovery limits.
+
+## Judge entry in development
+
+The new session-isolated example-agent entry is documented in [JUDGE.md](JUDGE.md).
+It adds buyer-written draft intents and a browser-only entry path. It has local
+mock-based regression coverage; hosted and live-model acceptance is pending.

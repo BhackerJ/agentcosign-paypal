@@ -52,8 +52,8 @@ def install(store, task, fixture):
             source_run=fixture['historical_run'],
             merchant_id=store.catalog['merchant_id'],
             currency='USD',
-            required_size=fixture['requirements']['size'],
-            required_width=fixture['requirements']['width'],
+            required_size=fixture['requirements'].get('size'),
+            required_width=fixture['requirements'].get('width'),
         )
         store.db.execute('UPDATE carts SET intent=? WHERE task_id=?', (json.dumps(intent), task))
 

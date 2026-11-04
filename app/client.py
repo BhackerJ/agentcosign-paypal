@@ -4,11 +4,11 @@ import argparse, json, urllib.request
 from pathlib import Path
 
 
-def call(origin, key, path, data=None):
+def call(origin, key, path, data=None, headers=None):
     req = urllib.request.Request(
         origin + path,
         data=json.dumps(data).encode() if data is not None else None,
-        headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'},
+        headers={**(headers or {}), 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'},
     )
     with urllib.request.urlopen(req, timeout=30) as response:
         return json.load(response)

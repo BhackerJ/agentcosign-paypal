@@ -37,6 +37,7 @@ class App:
             self.p = Payments(self.s, Client(config), config)
         row = self.s.db.execute('SELECT task_id FROM carts').fetchone()
         self.task = row[0] if row else self.s.create()['task_id']
+        self.fixture = getattr(args, 'fixture', None) or self.fixture
         profile_intent.install(self.s, self.task, self.fixture)
         key = self.out / 'agent-key.private.txt'
         if not key.exists():
@@ -74,7 +75,7 @@ class App:
                 'quote': q,
                 'assessment': assessment,
                 'payment': json.loads(purchase['verification'] or '{}') if purchase else None,
-                'buyer_review_path': '/',
+                'buyer_review_path': getattr(self, 'buyer_review_path', '/'),
                 'agent_can_approve': False,
             }
 
@@ -94,15 +95,16 @@ class App:
                     run_shopper(self)
                     from client import call
 
-                    current = call(self.origin, self.key, '/api/purchase')
+                    current = call(getattr(self, 'agent_api_origin', self.origin), self.key, '/api/purchase', headers=getattr(self, 'agent_headers', {}))
                     review = call(
-                        self.origin,
+                        getattr(self, 'agent_api_origin', self.origin),
                         self.key,
                         '/api/review',
                         {
                             'cart_version': current['cart_version'],
                             'intent_sha256': current['intent_confirmation']['intent_sha256'],
                         },
+                        headers=getattr(self, 'agent_headers', {}),
                     )
                     (self.out / 'agent-review.json').write_text(json.dumps(review, indent=2))
                     gate = review['assessment']['intent_aware_quote_policy']['gate']
@@ -320,7 +322,7 @@ class App:
         return h + '</html>'
 
 
-def handler(app):
+def handler(default_app, resolve_app=None):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *a):
             pass
@@ -341,11 +343,12 @@ def handler(app):
             return c['buyer'].value if 'buyer' in c else ''
 
         def agent(self):
-            if not secrets.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + app.key):
+            if not secrets.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.app.key):
                 raise Refused(403, 'Agent credential required')
 
         def do_GET(self):
             try:
+                app = self.app = resolve_app(self) if resolve_app else default_app
                 path = urlsplit(self.path).path
                 if path.startswith('/enter/'):
                     self.send(303, location='/', cookie=app.s.buyer_exchange(path[7:]))
@@ -369,6 +372,7 @@ def handler(app):
 
         def do_POST(self):
             try:
+                app = self.app = resolve_app(self) if resolve_app else default_app
                 n = int(self.headers.get('Content-Length', 0))
                 if not 0 < n < 4096:
                     raise Refused(400, 'Invalid request')

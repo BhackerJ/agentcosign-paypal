@@ -1,0 +1,7 @@
+.git
+.venv
+state
+video
+*.private.*
+.env*
+**/__pycache__
