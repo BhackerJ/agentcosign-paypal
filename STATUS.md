@@ -39,3 +39,15 @@ language acceptance included rewritten requests after refusals; do not claim
 limits remain pending. No public push or upload was performed.
 
 Original-request follow-up: both refused inputs now reach confirmation verbatim in live-model clean-browser tests. Strict under-budget parsing and walking type are preserved. Final regression: 60 passing tests. Local amd64 container shopping/API, second-session isolation and restart checks pass with zero provider calls. Render configuration is prepared but unsubmitted; no deployment or public push is claimed.
+
+
+## Authorized P0 publication and Render activation attempt
+
+Reviewed P0 implementation commit `0a1c24b` was pushed to
+`codex/p0-judge-entry` with owner authorization. Main was not changed.
+Render activation of the Docker service with persistent state was attempted,
+but the account required adding a payment card despite redeemed hackathon
+credits. The card dialog was canceled under the owner's no-card constraint.
+The dashboard still showed no services. No hosted browser acceptance can be
+claimed; the local container results above remain the available acceptance.
+No new PayPal transaction, video upload or formal submission occurred.
