@@ -1,58 +1,135 @@
 # AgentCoSign
 
-**Final English demo:** 1:45.40; public video upload pending owner review · [Run identities and recording boundaries](VIDEO.md) · [Current status](STATUS.md)
+Purchase authorization and verified PayPal sandbox payments for personal agents.
+Your agent shops; AgentCoSign checks the evidence; you approve the exact purchase.
+The example personal-agent client is ours. No Muse or Instinct integration is claimed.
 
-Purchase authorization and PayPal sandbox payment for personal agents.
+**Current owner-review video: 2:21.93, English owner narration, small camera overlay and a local one-link evidence preview.**
+See [the canonical video record](VIDEO.md) for the exact version and separate runs.
+No public video URL exists yet. [English Devpost draft](submission/DEVPOST.md) ·
+[Judge reproduction path](submission/JUDGE-PATH.md) · [Current status](STATUS.md).
 
-This standalone release uses minimized, hash-verified extracts from two existing synthetic profile/task pairs: walking-width and resolable-work-shoes. The buyer confirms the intent; the example browser agent shops; the API evaluates the server-owned quote; the buyer separately approves purchase and PayPal payment. Buyer and developer surfaces are English.
+## One-link judge experience
 
-## Run
+The release candidate includes the original report renderer, a minimized historical
+replay and allowlisted saved evidence. Start with the recorded route; use
+**Explore recorded run → Next** to inspect the five stages. **Try a new live
+shopper** starts a separate session using server-side model and Channel3 access.
+Read-only evidence never grants current purchase authority.
 
-Python 3.11+ is required.
+See [judge instructions](submission/JUDGE-PATH.md) for the exact click path and
+[Docker review](deployment/REVIEW.md) for verification scope.
+The candidate bundle is local and not yet published. Render remains suspended;
+no working public judge URL is claimed.
+
+With the reviewed `deployment/bundle` present, build and run recorded mode:
+
+```sh
+docker build --platform linux/amd64 -f deployment/Dockerfile -t agentcosign-experience:review .
+docker run --rm -p 127.0.0.1:64350:10000 \
+  -e PUBLIC_ORIGIN=http://127.0.0.1:64350 -e MAX_LIVE_RUNS=0 \
+  agentcosign-experience:review
+```
+
+Open http://127.0.0.1:64350. This route needs no keys. Live mode additionally
+requires private server-side `ANTHROPIC_API_KEY` and `CHANNEL3_API_KEY`, persistent
+state and sufficient run capacity. Never embed keys in the browser or repository.
+The one-link server disables PayPal actions; saved PayPal evidence is separate.
+
+## Start here
+
+The Render service is **suspended by owner request**; it is not a working judge
+entry. The latest Channel3/report changes remain local and have not been pushed.
+The public repository therefore does not yet contain this complete review version.
+
+Use Python 3.12 from the repository root:
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -r requirements.lock.txt
+python -m pip install -r requirements.lock.txt
 python -m playwright install chromium
-export ANTHROPIC_API_KEY='your-key'
-python app/server.py --scenario resolable-work-shoes --state state/work --port 64200
+PYTHONPATH=app:tests python -m unittest discover -s tests
+python evaluate_release.py
+python tools/check_local.py
 ```
 
-Open the one-use URL stored in `state/work/access.private.json`. Confirm the shopping instructions yourself, then visit `/developer` to start the real shopper. The model chooses visible browser controls. Browser video is saved under the state directory. The deliberately assigned initial candidate has missing resoling evidence. Unknown is treated as insufficient evidence, not proof of a defect.
+These checks use no model credentials or real payment provider. Mock-provider tests
+and controlled evaluation are not new shopping or payment evidence.
 
-Use `--scenario walking-width --state state/walking` for the other scenario. Keep separate state directories. Restarting issues a fresh buyer entry URL; it preserves the cart and invalidates the previous buyer session.
+## Run the example personal agent
 
-## PayPal sandbox
-
-Create your own sandbox business app and personal buyer account at developer.paypal.com. Copy `.env.example` to a private config file, fill its values, and add `--paypal-config /absolute/path/to/private-config` to the server command. The buyer approves the exact quote, continues to PayPal, and returns to check status and capture. The developer console offers sequential repeat verification. Without configuration, payment is explicitly disabled.
-
-Agent API: `GET /api/purchase`; `POST /api/review` with current `cart_version` and confirmed `intent_sha256`. Authenticate with the bearer key in the state directory. The agent cannot confirm intent, approve purchase or initiate payment through these API routes.
+Configure your own `ANTHROPIC_API_KEY` privately in the server environment, then:
 
 ```sh
-python app/client.py --origin http://127.0.0.1:64200 --key-file state/work/agent-key.private.txt --review
-PYTHONPATH=app:tests python -m unittest discover -s tests
+python app/judge.py --state state/judge-fresh --port 64300
 ```
 
-## Evidence and limits
+Open http://127.0.0.1:64300 in a fresh browser. Enter a shoe request with one USD
+maximum; review and confirm the extracted requirements; start the browser shopper;
+then use the separate buyer card to review the exact quote. The default catalog is
+fictional fixture data. No `/developer` page or local access-token file is needed
+for this session-isolated entry. Model use may incur provider fees.
 
-The main recorded-work-01 transaction completed a $210.34 sandbox payment, Order/Capture GET verification and two sequential repeat checks: one capture POST and one merchant receipt. The separately labeled approval-pickup-01 is an approval-only order, not captured. Final result footage refreshes the same main order read-only. See VIDEO.md for exact run identities. The final video remains local until owner approval.
+For real Channel3 discovery and the explicitly staged same-cart recovery challenge,
+follow [CHANNEL3.md](CHANNEL3.md) and [the judge path](submission/JUDGE-PATH.md).
+Both Channel3 and model keys are required. Missing facts stay unknown; the challenge
+stops if current results do not contain suitable candidates. Channel3 mode refuses
+PayPal configuration. Shipping, tax and pair quantities are simulated; no retailer
+order or fulfillment occurs.
 
-The two source mappings are curated; no generic profile extraction or Muse/Instinct integration is claimed. Buyer/developer views share authentication. The legacy server is a loopback prototype; the isolated judge entry has separate hosted acceptance below. Model usage requires provider access and may incur cost. Eight controlled cases have independent-agent source-review labels, not human or held-out benchmark evidence. Delivery days are explicit fictional merchant commitments from a common order-date anchor.
+## What the video proves
 
-Original full-file hashes identify historical sources; the fixture manifest verifies the separately minimized extracts. No full profiles, addresses, private harness or credentials are required to install this release.
+- An October 14 real-store replay exposes a resoling evidence gap found afterward.
+  There was no live CoSign block in that historical store visit.
+- `report-recorded-02`: an assigned missing-evidence candidate is paused. The
+  controller reopens the same cart; the model selects a replacement and executes
+  browser Remove/Add actions. The human approved the exact **$82.08** quote.
+  Intent confirmation was automated test setup; payment calls were zero.
+- Separate `recorded-work-01`: **$210.34** PayPal sandbox capture and order/capture
+  GET verification; two sequential repeats returned the same capture, with one
+  capture POST and one local merchant receipt. This is a different cart/order.
 
-## License and reproduction
+Updated report UI is a labeled read-only review of saved events; the original
+human approval click appears in an inset. That approval is now expired and grants
+no current payment authority. The local release candidate includes only the minimized replay bundle described
+in [PUBLIC-RESOURCES.md](PUBLIC-RESOURCES.md); raw source data remains private.
+[CONVERSATION.md](CONVERSATION.md) describes the report adapter. Publishing the
+bundle remains subject to the resource review and owner release approval.
 
-MIT licensed; see LICENSE. Public dependency licenses remain with their respective packages. See TESTING.md and submission/CLEAN-REPRODUCTION.md for the credential-free clean-environment checks. The real model and sandbox paths require your own provider access; local reproduction does not include provider credits. Hosted availability is noted below.
+## Optional PayPal sandbox reproduction
 
-## Return and expiry recovery
+The existing fixture-mode payment implementation is documented in [TESTING.md](TESTING.md).
+It requires your own sandbox app, merchant and personal buyer account. Keep secrets
+out of Git. Leave PayPal unconfigured for no-payment review; payment then stays
+disabled. Actually reproducing a sandbox transaction is optional and separate from
+credential-free checks and preserved evidence. We are not running another payment
+as part of this review.
 
-After PayPal return/cancel, use Continue to buyer review, then check the existing order. A return URL never proves payment. Existing-order GET checks remain available after quote expiry; capture does not. Fresh quote replacement is supported only when no provider order exists. See TESTING.md for session renewal and conservative recovery limits.
+A PayPal return URL is not proof of payment. Existing-order GET remains available
+after quote expiry; capture does not. See TESTING.md for conservative recovery.
+The agent API can request purchase review but cannot confirm intent, approve or pay.
 
-## Session-isolated judge entry
+## Scope and license
 
-The new session-isolated example-agent entry is documented in [JUDGE.md](JUDGE.md).
-It adds buyer-written draft intents and a browser-only entry path. It has 60 local regression tests plus live-model and hosted browser acceptance.
-The Render service is currently **suspended by owner request**, and hosted PayPal
-payment is disabled. [Hosted results and separate prior payment evidence](submission/P0-HOSTED-ACCEPTANCE.md).
+This prototype uses curated synthetic profile/task extracts, deterministic evidence
+checks, versioned carts and exact quote/intent approval bindings. Preset retry
+success is not a general autonomous-recovery rate. The 24-case human-label packet
+is prepared; human results and external usability remain pending. AI labels are
+not human evidence. Sequential repeats do not establish concurrent exactly-once
+behavior. No production-money, retailer checkout or fulfillment claim is made.
+
+MIT licensed; see [LICENSE](LICENSE) and [THIRD_PARTY.md](THIRD_PARTY.md).
+[Reproduction record](submission/CLEAN-REPRODUCTION.md) distinguishes prior clean
+installation from the latest isolated-copy checks. Judge credentials, continuing
+hosted access, the documented third-party use assumptions and public release still require review
+before a fully accessible submission can be claimed.
+
+Hosted product-data use terms and disclosures are available at `/demo-terms`.
+See [public-resource review](PUBLIC-RESOURCES.md) for the remaining Nisolo screenshot/video release decision.
+
+Before a new live session, read the Demo terms, check the agreement box and choose
+**Agree to terms and start**. The server saves the session, version, document
+SHA-256 and UTC timestamp; this consent does not confirm intent or approve a purchase.
+Recorded inspection does not require agreement. A changed terms version/hash
+requires new consent before live actions.

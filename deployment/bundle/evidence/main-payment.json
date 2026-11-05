@@ -1,0 +1,19 @@
+{
+  "run": "recorded-work-01",
+  "cart_id": "931f5a3060347c945c4ee6c5",
+  "verification": {
+    "order_id": "61L113898K399762F",
+    "capture_id": "0JK088713N9840907",
+    "order_status": "COMPLETED",
+    "capture_status": "COMPLETED",
+    "total_cents": 21034,
+    "currency": "USD",
+    "payment_verified": true
+  },
+  "capture_post_count": 1,
+  "merchant_receipt_count": 1,
+  "repeat_capture_ids": [
+    "0JK088713N9840907",
+    "0JK088713N9840907"
+  ]
+}

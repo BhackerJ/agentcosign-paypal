@@ -361,13 +361,18 @@ def serve(store, port=0):
                 items = json.loads(row['items'])
                 esc = html.escape
                 body = '<h1>AgentCoSign Test Shop</h1><p>NEW DERIVED TEST FIXTURE. No real products, orders or payments.</p>'
+                if store.catalog.get('provider') == 'channel3':
+                    body = '<h1>Sandbox Test Shop</h1><p>'+html.escape(store.catalog['disclosure'])+'</p>'
                 body += '<nav><a href="/shop">Products</a> · <a href="/cart">View cart</a></nav>'
                 body += '<p>USD. Fixed test shipping $10.00 per cart; test tax 6% of merchandise. No discounts.</p>'
                 if path == '/shop':
                     for sku, product in store.catalog['products'].items():
                         body += f'<section><h2>{esc(product["name"])}</h2><p>SKU: {sku}. Price ${product["price_cents"]/100:.2f}.'
-                        body += '<ul>'+''.join('<li>'+esc(k.replace('_',' ').title()+': '+('Not documented' if v is None else str(v).replace('_',' ')))+'</li>' for k,v in product.items() if k not in ('name','price_cents','category'))+'</ul>'
-                        body += f' Size {product.get("size", "n/a")}; width {product.get("width", "n/a")}. Quantity 1 = one {product["unit"]}. Available.</p>'
+                        body += '<ul>'+''.join('<li>'+esc(k.replace('_',' ').title()+': '+('Not documented' if v is None else str(v).replace('_',' ')))+'</li>' for k,v in product.items() if k not in ('name','price_cents','category','source'))+'</ul>'
+                        if product.get('source'):
+                            source = product['source']
+                            body += '<p>'+esc('Channel3 source: '+source['domain']+'; product '+source['product_id']+'; retrieved '+source['retrieved_at'])+'</p>'
+                        body += f' Size {esc(str(product.get("size", "n/a")))}; width {esc(str(product.get("width", "n/a")))}. Quantity 1 = one {product["unit"]}. Availability: {product.get("available")}.</p>'
                         body += f'<form method="post" action="/cart"><input type="hidden" name="csrf" value="{row["csrf"]}"><input type="hidden" name="sku" value="{sku}"><input type="hidden" name="quantity" value="1"><button>Add {esc(product["name"])} to cart</button></form></section>'
                 else:
                     body += f'<h2>Your cart</h2><p>Cart reference: {row["cart_id"]}. Version: {row["version"]}.</p>'
@@ -377,7 +382,7 @@ def serve(store, port=0):
                     for sku, qty in items.items():
                         p = store.catalog['products'][sku]
                         subtotal += p['price_cents'] * qty
-                        body += f'<section><h3>{esc(p["name"])}</h3><p>SKU {sku}. Quantity {qty}. Size {p.get("size", "n/a")}; width {p.get("width", "n/a")}. Line ${p["price_cents"]*qty/100:.2f}</p></section>'
+                        body += f'<section><h3>{esc(p["name"])}</h3><p>SKU {sku}. Quantity {qty}. Size {esc(str(p.get("size", "n/a")))}; width {esc(str(p.get("width", "n/a")))}. Line ${p["price_cents"]*qty/100:.2f}</p></section>'
                     if items:
                         tax = (subtotal*store.catalog['tax_basis_points']+5000)//10000
                         total = subtotal+store.catalog['shipping_cents']+tax

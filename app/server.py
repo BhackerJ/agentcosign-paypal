@@ -21,6 +21,7 @@ class App:
         self.origin = f'http://127.0.0.1:{args.port}'
         self.s = Store(self.out / 'cart.sqlite', quote_lifetime_seconds=900)
         self.fixture, self.s.catalog = profile_intent.load_fixture(args.scenario)
+        self.s.catalog = getattr(args, 'catalog', None) or self.s.catalog
         self.p = None
         with self.s.db:
             self.s.db.execute('CREATE TABLE IF NOT EXISTS provider_calls(method TEXT,path TEXT)')
@@ -199,9 +200,15 @@ class App:
             )
         else:
             h += '<section><h2>Your agent selected</h2>'
+            if self.s.catalog.get('provider') == 'channel3':
+                h += '<p>'+esc(self.s.catalog['disclosure'])+'</p>'
             for line in q['lines']:
                 h += '<p>' + esc(line['name']) + ' · Quantity ' + str(line['quantity']) + '</p>'
-            h += f'<h2>Total ${q["total_cents"]/100:.2f} USD</h2><p>Items ${q["subtotal_cents"]/100:.2f} · Shipping ${q["shipping_cents"]/100:.2f} · Test tax ${q["tax_cents"]/100:.2f}</p><small>Fictional sandbox merchandise. No fulfillment.</small></section>'
+                if line.get('source'):
+                    source = line['source']
+                    h += '<small>'+esc('Channel3 · '+source['domain']+' · Product '+source['product_id']+' · Retrieved '+source['retrieved_at'])+'</small>'
+                    h += '<p>'+esc('Product evidence: '+', '.join(k.replace('_', ' ')+': '+str(line.get(k) if line.get(k) is not None else 'not documented') for k in intent['requirements'] if k != 'unit'))+'</p>'
+            h += f'<h2>Total ${q["total_cents"]/100:.2f} USD</h2><p>Items ${q["subtotal_cents"]/100:.2f} · Shipping ${q["shipping_cents"]/100:.2f} · Test tax ${q["tax_cents"]/100:.2f}</p><small>Sandbox test merchant. No retailer order or fulfillment.</small></section>'
             purchase = self.purchase()
             v = json.loads(purchase['verification'] or '{}') if purchase else {}
             if v.get('payment_verified'):
@@ -264,6 +271,11 @@ class App:
                     elif purchase['state'] == 'waiting_for_buyer':
                         h += '<a href="' + esc(purchase['approval_url']) + '">Continue PayPal approval</a>'
                 elif gate == 'expired':
+                    if self.s.catalog.get('provider') == 'channel3':
+                        with self.s.lock:
+                            previous = self.s.db.execute("SELECT approval_id FROM approvals WHERE task_id=? AND quote_sha256=? AND cart_version=? AND intent_sha256=? AND status='approved'", (self.task, q['sha256'], q['cart_version'], q['intent_sha256'])).fetchone()
+                        if previous:
+                            h += '<h2>Previously approved · $'+format(q['total_cents']/100,'.2f')+'</h2><p>This exact quote was approved by the buyer. That approval has expired and is not permission to pay. No payment has occurred in this Channel3 acceptance.</p>'
                     h += '<h2>Quote expired</h2>' + form(
                         'refresh', 'Get a fresh quote', hidden('quote', q['quote_id'])
                     )
@@ -276,7 +288,7 @@ class App:
                         hidden('quote', q['quote_id']),
                     )
                 elif not self.p:
-                    h += '<p>Purchase approved. Configure PayPal sandbox to enable payment; no payment has occurred.</p>'
+                    h += ('<p>Purchase approved. Payments are disabled for this Channel3 acceptance; no payment has occurred.</p>' if self.s.catalog.get('provider') == 'channel3' else '<p>Purchase approved. Configure PayPal sandbox to enable payment; no payment has occurred.</p>')
                 else:
                     h += form('pay', 'Continue to PayPal sandbox', hidden('quote', q['quote_id']))
                 h += '</section>'

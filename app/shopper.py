@@ -6,6 +6,18 @@ No private harness, buyer credentials, payment tools, or direct cart mutations.
 import json, os, secrets, time
 from urllib.parse import urlsplit
 from shop import serve, token_hash
+from client import call
+
+
+def review_cart(app):
+    """Use the same authenticated authorization endpoint before any recovery."""
+    origin = getattr(app, 'agent_api_origin', app.origin)
+    headers = getattr(app, 'agent_headers', {})
+    current = call(origin, app.key, '/api/purchase', headers=headers)
+    return call(origin, app.key, '/api/review', {
+        'cart_version': current['cart_version'],
+        'intent_sha256': current['intent_confirmation']['intent_sha256'],
+    }, headers=headers)
 
 
 def run_shopper(app):
@@ -60,6 +72,7 @@ def run_shopper(app):
             if initial_empty and app.fixture.get('challenge_first_sku')
             else '. Inspect the available products and current cart. Choose products from buyer requirements; preserve any correct products already in the cart.'
         )
+        + ('. For this labeled Channel3 recovery challenge, read the initial cart and call finish once BEFORE replacing the assigned candidate. Then use the returned authorization feedback to recover; choose the replacement yourself.' if app.fixture.get('challenge_first_sku') and s.catalog.get('provider') == 'channel3' else '')
         + '  Select only one qualifying pair. Unknown required facts cannot pass. Use visible controls only. Never visit buyer/payment pages. Finish only after reading the final cart and its total. Do not claim payment.'
     )
     try:
@@ -121,6 +134,8 @@ def run_shopper(app):
                 for b in calls:
                     action = b.input.get('action')
                     error = False
+                    feedback = ''
+                    review = None
                     try:
                         if b.name != 'browser':
                             raise ValueError('Only browser tool is available')
@@ -135,16 +150,25 @@ def run_shopper(app):
                             if urlsplit(page.url).path != '/cart':
                                 raise ValueError('Read the final cart first')
                             s.runner_finished(task, 'done')
-                            quote = s.freeze(task)
-                            assessment = s.assessment(task, quote)
-                            if assessment['intent_aware_quote_policy']['gate'] != 'allow':
+                            review = review_cart(app)
+                            assessment = review['assessment']
+                            gate = assessment['intent_aware_quote_policy']['gate']
+                            with s.lock, s.db:
+                                s.audit(task, 'shopper_authorization_review', {'cart_id':review['cart_id'], 'cart_version':review['cart_version'], 'quote_id':review['quote']['quote_id'], 'gate':gate})
+                            if getattr(app, 'recovery_evidence', False):
+                                number = sum(t['action'].get('action') == 'finish' for t in trace) + 1
+                                (app.out/f'recovery-review-{number}.private.json').write_text(json.dumps(review,indent=2))
+                                page.screenshot(path=str(app.out/f'recovery-review-{number}.png'),full_page=True)
+                            if gate != 'allow':
                                 s.reopen(task)
-                                raise ValueError('Current cart is not eligible; correct it using the page')
-                            passed = True
-                            finished = True
+                                error = True
+                                feedback = 'AgentCoSign authorization API: '+gate+'. Purchase is not eligible. Correct the SAME cart using visible Remove/Add controls; do not change buyer requirements.'
+                            else:
+                                passed = True
+                                finished = True
                         elif action != 'inspect':
                             raise ValueError('Unknown action')
-                        content = page.locator('body').aria_snapshot()
+                        content = feedback + '\n' + page.locator('body').aria_snapshot()
                     except Exception as exc:
                         content = (
                             type(exc).__name__
@@ -156,12 +180,21 @@ def run_shopper(app):
                             'turn': turn,
                             'action': dict(b.input),
                             'error': error,
+                            'cart_id': s.snapshot(task)['cart_id'],
+                            'cart_version': s.snapshot(task)['version'],
+                            'items': s.snapshot(task)['items'],
+                            'authorization_gate': review['assessment']['intent_aware_quote_policy']['gate'] if review else None,
+                            'authorization_feedback': feedback,
+                            'requirement_evidence': [{'field':key,'required':value,'observed':line.get(key)} for line in review['quote']['lines'] for key,value in intent['requirements'].items()] if review else [],
                             'elapsed_seconds': round(time.monotonic() - start, 2),
                         }
                     )
                     outputs.append(
                         {'type': 'tool_result', 'tool_use_id': b.id, 'content': content, 'is_error': error}
                     )
+                live = app.out/'shopper-live.private.json'
+                temp = live.with_suffix('.tmp')
+                temp.write_text(json.dumps(trace)); temp.replace(live)
                 app.job = 'Browser shopper: completed ' + str(len(trace)) + ' actions. No payment initiated.'
                 messages.append({'role': 'user', 'content': outputs})
                 if finished:

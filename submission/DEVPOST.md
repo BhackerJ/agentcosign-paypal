@@ -1,52 +1,93 @@
 # AgentCoSign
 
 ## Tagline
-
-Buyer-controlled purchase authorization and verified PayPal payments for personal agents.
+Purchase authorization and verified sandbox payments for personal agents.
 
 ## Inspiration
-
-A shopping agent can stay within budget and still select the wrong product. Our existing simulated shopping research included a request for Extra Wide shoes where a Standard-width candidate was selected. A budget check cannot detect that mismatch. We wanted personal agents to preserve the buyer's requirements all the way from shopping to approval and payment.
+A personal shopping agent can stay within budget while selecting a candidate
+whose required attributes are unsupported. Existing simulated shopping research
+motivated a purchase check that preserves the buyer's requirements through exact
+quote approval and payment verification.
 
 ## What it does
+Your personal agent handles shopping. AgentCoSign checks a server-owned quote
+against buyer-confirmed requirements. Unknown required facts pause eligibility;
+matching evidence permits buyer review. Only the buyer approves the exact purchase.
+The example client is ours; Muse and Instinct integrations are not implemented.
 
-AgentCoSign is a local purchase authorization and sandbox payment layer. An example personal agent shops through a browser and calls an authenticated quote-review API. AgentCoSign checks merchant-owned cart details against a source-linked intent that the buyer has confirmed. The buyer separately approves the exact items and all-in total, then approves in PayPal sandbox. The service captures and reads back the order and capture before issuing a verified receipt.
+Channel3 supplies real product search and detail data to a sandbox test merchant.
+Product IDs, source merchants, retrieval times and response hashes accompany the
+quote. Shipping, tax and the merchant's pair unit are simulated. This does not
+place an order with the source retailer or verify its landed price or fulfillment.
 
-The example includes two existing synthetic profile/task pairs: Extra Wide walking shoes and resolable black leather work shoes. Their mappings are curated and traceable to minimized source extracts. Unknown required facts pause review rather than being treated as proof of compliance.
+A separate sandbox payment path uses PayPal order creation, capture and GET
+reconciliation. The agent has no buyer-approval or payment tools.
+
+## Demonstrated evidence
+The video first plays an existing real-store shopping replay (player 16×, with
+additional recording speed labeled), using
+original pages and messages from October 14. The resoling evidence gap is a
+post-run finding, not a historical runtime block. It is separate from the new
+Channel3 recovery episode below.
+
+**New recorded report run: report-recorded-02.** In an explicitly
+preset reject-and-retry challenge, the shopper adds an assigned real candidate.
+Missing material evidence pauses authorization. The controller reopens the same
+cart; the model independently selects a replacement and executes Remove/Add
+through browser controls. Buyer requirements remain unchanged. Browser shopper
+runtime was 23.7 seconds including setup/cleanup. The report conversation displays actual backend browser actions and CoSign feedback.
+The buyer approved the recovered
+$82.08 quote. The human approval click was recorded in the embedded report card without a
+top-level page change. Zero payment calls were made in this run. Intent confirmation was
+automated test setup; exact purchase approval was performed by the human buyer.
+
+**Separate historical PayPal run: recorded-work-01.** A $210.34 sandbox purchase
+completed capture and order/capture GET verification. Two sequential repeated
+application requests returned the same capture, with one capture POST and one
+local merchant receipt. The video uses that run's later read-only result footage;
+it is a different cart and order, not a payment for the new Channel3 purchase.
+This does not establish concurrent crash safety or universal exactly-once behavior.
+
+75 local regression tests passed in a fresh source copy using an existing isolated
+Python environment; see the reproduction record. These
+are software checks, not shopper accuracy measurements. A 24-case human-review
+packet is prepared; human labeling and its paired evaluation are pending. AI
+assistant labels are not counted as human evidence. No comparative error-rate
+claim is made.
 
 ## How we built it
+Python and SQLite maintain versioned carts, confirmed intents and exact approval
+bindings. Claude with Playwright chooses visible shopping actions. Deterministic
+checks compare observed facts against the confirmed request. Channel3 discovery
+is server-side and preserves missing attributes. PayPal sandbox GET checks verify
+recorded order/capture identity, payer, merchant, currency, items and amounts.
 
-Python and SQLite maintain server-owned carts, quote versions, intent hashes and approval records. A standalone Claude/Playwright example client chooses visible browser actions. It has no buyer-approval or payment tools. PayPal Orders and Capture APIs execute sandbox payments, and GET reconciliation checks the payer, merchant, items, currency, amount and order association. Recorded request identities and unique local purchase/receipt records support safe sequential duplicate handling.
+## Existing work and new implementation
+We reuse historical simulated-shopping failures and minimized synthetic
+profile/task extracts, with their provenance retained. New work includes the
+natural-language example client, session-isolated intent and quote review,
+Channel3 discovery, recorded staged recovery, buyer approval and sandbox payment
+verification. Preserved historical failures are not counted as new shopper runs.
 
-## What we tested
+## Limits and next steps
+The staged recovery demonstrates replacement after an instructed failure, not an
+unprompted retry strategy or natural error rate. Product evidence is a snapshot;
+strict size, width, delivery and resoling requirements can remain unsupported.
+Human evaluation and an external usability session remain unfinished. Render was
+deployed and tested, then suspended at the owner's request; no currently available
+hosted judging link is claimed. Payment is disabled in the Channel3 acceptance
+mode. Source-data evaluation publication permission remains to be confirmed.
 
-In recorded-work-01, the real browser shopper completed the deliberately assigned recovery challenge in 28.4 seconds. The buyer approved the exact $210.34 quote and PayPal order. Order 61L113898K399762F and capture 0JK088713N9840907 both returned COMPLETED. Two sequential repeated application requests returned the same capture, with one capture POST and one merchant receipt. A subsequent read-only refresh verified the same order without increasing POST counts.
+## AI tools
+Claude chooses browser actions. Codex assisted implementation, tests, documentation
+and evidence review. The 2:21.93 review video includes a labeled local recorded-evidence entry preview,
+with no offline acceptance presented as real execution. It uses the owner’s English narration and a small camera
+overlay while the application remains visible. There is no synthetic voice.
 
-The video includes a separately labeled approval-only pickup, approval-pickup-01. That is a different order: APPROVED, not captured. We do not present the two recordings as one continuous transaction.
-
-Forty-seven contract tests cover cart, buyer approval, payment and delivery boundaries. Eight controlled inputs were compared against separately authored agent-review labels: four matching candidates allowed, two conflicts blocked and two missing-evidence cases paused. Original cases were not blind; this is not human-labeled or held-out population performance evidence.
-
-## Challenges and limitations
-
-Quote eligibility is not permission to pay. Preserving that distinction, binding exact approvals, and treating missing merchant evidence honestly were central design challenges. Browser recording also required explicit run labels and a separate pickup to avoid implying continuity that had not been recorded.
-
-This is a single-task loopback prototype using a fictional test merchant. Buyer and developer views share authentication. It does not demonstrate production multi-user security, real fulfillment, concurrent crash safety or universal exactly-once payment. There are no live Muse/Instinct integrations and no general automatic profile-to-intent extractor.
-
-## Existing work and hackathon updates
-
-Existing work: AgentCoSign's simulated shopping corpus, synthetic profiles/tasks and browser-shopping research. Hackathon-period work includes source-linked confirmed purchase intent, complete-quote comparisons, exact buyer approval, the personal-agent review/receipt API, PayPal sandbox order/capture/GET reconciliation, sequential duplicate verification, a standalone public-dependency example client, independent-agent review and the English demonstration. Preserved historical failures are not counted as new experiments.
-
-## AI tools and technologies
-
-Claude Sonnet 4.6 chooses browser actions in the example client. OpenAI Codex assisted implementation, tests, evidence organization, independent agent reviews and documentation. The English narration uses local synthetic speech. The policy checks are deterministic; evaluation labels are explicitly agent-reviewed rather than human ground truth. Built with Python, SQLite, Playwright, Anthropic SDK, PayPal Sandbox Orders/Captures APIs and FFmpeg.
-
-## What's next
-
-Validate the adapter with independent integrators and more diverse untouched shopping tasks; improve profile normalization, role separation, lifecycle recovery and concurrent-operation testing.
-
-## Submission links — review before publishing
-
+## Submission fields — owner review required
 - Repository: https://github.com/BhackerJ/agentcosign-paypal
-- Working build: README and TESTING.md in the public repository; local setup, no hosted service.
-- Video: local video/agentcosign-final.mp4, 1:45.40. PUBLIC YOUTUBE URL NOT YET CREATED.
-- No Devpost submission has been sent. Replace the video placeholder only after owner review and upload approval.
+- Latest Channel3 changes remain local and are not yet pushed.
+- Working access: [judge reproduction instructions](JUDGE-PATH.md); Render currently suspended. The intended hosted live route uses operator-provided model/Channel3 access. A minimized historical replay bundle is prepared locally but not yet published.
+- Review video: owner-cut-v4-ending, 2:21.93, English owner narration; [canonical version and run boundaries](../VIDEO.md). Public URL pending approval.
+- Team, final category selections and judging credentials: owner confirmation pending.
+- No video upload or Devpost submission has occurred.

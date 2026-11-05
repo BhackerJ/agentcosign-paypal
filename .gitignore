@@ -8,3 +8,6 @@ state/
 
 # Video publication requires owner review
 video/*.mp4
+
+# Generated local replay bundle requires separate publication/privacy review.
+deployment/bundle/

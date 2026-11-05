@@ -12,15 +12,18 @@ import profile_intent
 
 
 class Sessions:
-    def __init__(self, state, origin, paypal_config=None, extractor=extract, slots=1, max_runs=40, api_origin=None):
+    def __init__(self, state, origin, paypal_config=None, extractor=extract, slots=1, max_runs=40, api_origin=None, catalog_provider="fixtures", channel_client=None, max_sessions=200):
         os.umask(0o077)
+        if catalog_provider not in ('fixtures', 'channel3'): raise ValueError('Unknown catalog provider')
+        if catalog_provider == 'channel3' and paypal_config: raise ValueError('Channel3 acceptance is payment-disabled')
+        self.catalog_provider, self.channel_client = catalog_provider, channel_client
         self.state, self.origin, self.paypal_config = Path(state), origin.rstrip('/'), paypal_config
         if urlsplit(origin).scheme != 'https' and urlsplit(origin).hostname not in ('localhost','127.0.0.1'):
             raise ValueError('Public deployment requires HTTPS origin')
         self.state.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock(); self.apps = {}; self.extractor = extractor
         self.pool = ThreadPoolExecutor(max_workers=slots)
-        self.max_runs = max_runs
+        self.max_runs, self.max_sessions = max_runs, max_sessions
         self.api_origin = api_origin or self.origin
         self.db = sqlite3.connect(self.state/'sessions.sqlite', check_same_thread=False)
         self.db.row_factory = sqlite3.Row
@@ -28,8 +31,8 @@ class Sessions:
 
     def new(self):
         with self.lock, self.db:
-            if self.db.execute('SELECT count(*) FROM sessions').fetchone()[0] >= 200:
-                raise Refused(429, 'Session capacity reached. Please contact the demo owner.')
+            if self.db.execute('SELECT count(*) FROM sessions WHERE expires>?',(time.time(),)).fetchone()[0] >= self.max_sessions:
+                raise Refused(429, 'Live session capacity reached. Existing sessions and recorded evidence remain available. Please try later or contact the demo owner.')
             sid, cookie, csrf = secrets.token_hex(16), secrets.token_urlsafe(32), secrets.token_urlsafe(24)
             self.db.execute('INSERT INTO sessions VALUES (?,?,?,?,0)', (sid, token_hash(cookie), csrf, time.time()+86400))
             return cookie
@@ -52,11 +55,17 @@ class Sessions:
                 state = self.state/sid
                 if not (state/'intent.json').exists(): raise Refused(409, 'Submit a shopping request first')
                 intent = json.loads((state/'intent.json').read_text())
+                if intent.get('catalog_provider', 'fixtures') != self.catalog_provider:
+                    raise Refused(409, 'Catalog provider changed; use the original provider or a fresh session')
                 fixture = dict(intent, id='natural-language', historical_run='new-judge-session',
                     source_disclosure='New buyer-written request. Model-extracted draft, confirmed separately by the buyer.', challenge_first_sku=None)
-                app = App(argparse.Namespace(state=state, port=0, scenario='resolable-work-shoes', paypal_config=self.paypal_config, fixture=fixture))
+                catalog = None
+                if self.catalog_provider == 'channel3':
+                    from channel3 import catalog_from_evidence
+                    catalog = json.loads((state/'channel3-catalog.private.json').read_text()) if (state/'channel3-catalog.private.json').exists() else catalog_from_evidence([])
+                app = App(argparse.Namespace(state=state, port=0, scenario='resolable-work-shoes', paypal_config=self.paypal_config, fixture=fixture, catalog=catalog))
                 _, walking_catalog = profile_intent.load_fixture('walking-width')
-                app.s.catalog['products'].update(walking_catalog['products'])
+                if self.catalog_provider == 'fixtures': app.s.catalog['products'].update(walking_catalog['products'])
                 app.buyer_review_path = '/buyer'
                 app.origin = self.origin
                 app.agent_api_origin = self.api_origin
@@ -76,6 +85,9 @@ class Sessions:
             if (target/'intent.json').exists(): raise Refused(409, 'This session already has a request. Start a new session for another task.')
             self.reserve('intent')
             intent = self.extractor(request)
+            if self.catalog_provider == 'channel3':
+                intent['catalog_provider'] = 'channel3'
+                intent['adaptations'] = ['Real product data from Channel3 in a sandbox test merchant. No retailer order or fulfillment. One pair is the test merchant sales unit. $10 shipping and 6% test tax are simulated; no retailer delivery promise. Review all requirements before confirming.']
             target.mkdir(exist_ok=True)
             (target/'intent.json').write_text(json.dumps(intent), encoding='utf-8')
             return self.app(row['id'])
@@ -90,6 +102,14 @@ class Sessions:
             app.queued = True; app.job = 'Queued for the example browser shopper.'
             def work():
                 try:
+                    if self.catalog_provider == 'channel3' and not app.s.catalog['products']:
+                        from channel3 import Client, discover
+                        app.job = 'Searching Channel3 and checking product evidence.'
+                        catalog = discover(self.channel_client or Client(), app.s.snapshot(app.task)['intent'])
+                        path = app.out/'channel3-catalog.private.json'
+                        temp = path.with_suffix('.tmp')
+                        temp.write_text(json.dumps(catalog)); temp.replace(path)
+                        app.s.catalog = catalog
                     app.launch()
                     app.worker.join()
                 except Exception:
@@ -155,6 +175,8 @@ def judge_handler(sessions):
                         c = sessions.new(); self.send_response(303);self.set_cookie('judge',c);self.send_header('Location','/');self.end_headers();return
                     esc = html.escape
                     body = '<!doctype html><html lang="en"><meta charset="utf-8"><title>Example personal agent</title><style>'+STYLE+'</style><small>EXAMPLE PERSONAL-AGENT CLIENT · SANDBOX</small><h1>Tell your agent what you need.</h1><p>One pair of shoes. Your agent shops; AgentCoSign asks you to confirm and approve.</p>'
+                    if sessions.catalog_provider == 'channel3':
+                        body += '<p>Product discovery: Channel3 real product data. Sandbox test merchant; no retailer order or fulfillment. PayPal is disabled for this acceptance.</p>'
                     try: app = sessions.app(row['id'])
                     except Refused:
                         body += '<form method="post" action="/request"><input type="hidden" name="csrf" value="'+row['csrf']+'"><label>Shopping request<br><textarea name="request" rows="5" cols="60" maxlength="2000" required placeholder="One pair of black leather lace-up shoes, size 11 wide, resoleable, under $250, within 14 days."></textarea></label><p>Include one explicit USD maximum. Fixed test shipping and tax are included in that maximum.</p><button>Send draft to AgentCoSign</button></form>'
@@ -202,8 +224,9 @@ def judge_handler(sessions):
 
 def main():
     p = argparse.ArgumentParser();p.add_argument('--state',type=Path,default=Path('state/judges'));p.add_argument('--port',type=int,default=int(os.getenv('PORT','64300')))
+    p.add_argument('--catalog-provider', choices=('fixtures','channel3'), default='fixtures')
     p.add_argument('--origin',default=os.getenv('PUBLIC_ORIGIN'));p.add_argument('--paypal-config',type=Path,default=os.getenv('PAYPAL_CONFIG') or None);p.add_argument('--host',default='127.0.0.1')
-    a = p.parse_args(); sessions = Sessions(a.state,a.origin or f'http://127.0.0.1:{a.port}',a.paypal_config, api_origin=f'http://127.0.0.1:{a.port}')
+    a = p.parse_args(); sessions = Sessions(a.state,a.origin or f'http://127.0.0.1:{a.port}',a.paypal_config, api_origin=f'http://127.0.0.1:{a.port}', catalog_provider=a.catalog_provider)
     print('Judge entry: '+sessions.origin,flush=True)
     ThreadingHTTPServer((a.host,a.port),judge_handler(sessions)).serve_forever()
 

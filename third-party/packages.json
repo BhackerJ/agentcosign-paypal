@@ -1,0 +1,720 @@
+[
+  {
+    "package": "@babel/runtime",
+    "version": "7.29.10",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/babel/babel.git",
+      "directory": "packages/babel-runtime"
+    },
+    "notices": [
+      "third-party/licenses/@babel__runtime/LICENSE"
+    ]
+  },
+  {
+    "package": "@base-ui/react",
+    "version": "1.9.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/mui/base-ui.git",
+      "directory": "packages/react"
+    },
+    "notices": [
+      "third-party/licenses/@base-ui__react/LICENSE"
+    ]
+  },
+  {
+    "package": "@base-ui/utils",
+    "version": "0.5.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/mui/base-ui.git",
+      "directory": "packages/utils"
+    },
+    "notices": [
+      "third-party/licenses/@base-ui__utils/LICENSE"
+    ]
+  },
+  {
+    "package": "@floating-ui/core",
+    "version": "1.8.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/floating-ui/floating-ui.git",
+      "directory": "packages/core"
+    },
+    "notices": [
+      "third-party/licenses/@floating-ui__core/LICENSE"
+    ]
+  },
+  {
+    "package": "@floating-ui/dom",
+    "version": "1.8.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/floating-ui/floating-ui.git",
+      "directory": "packages/dom"
+    },
+    "notices": [
+      "third-party/licenses/@floating-ui__dom/LICENSE"
+    ]
+  },
+  {
+    "package": "@floating-ui/react-dom",
+    "version": "2.1.9",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/floating-ui/floating-ui.git",
+      "directory": "packages/react-dom"
+    },
+    "notices": [
+      "third-party/licenses/@floating-ui__react-dom/LICENSE"
+    ]
+  },
+  {
+    "package": "@floating-ui/utils",
+    "version": "0.2.12",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/floating-ui/floating-ui.git",
+      "directory": "packages/utils"
+    },
+    "notices": [
+      "third-party/licenses/@floating-ui__utils/LICENSE"
+    ]
+  },
+  {
+    "package": "@fontsource/inter",
+    "version": "5.3.0",
+    "license": "OFL-1.1",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/fontsource/font-files.git",
+      "directory": "fonts/google/inter"
+    },
+    "notices": [
+      "third-party/licenses/@fontsource__inter/LICENSE"
+    ]
+  },
+  {
+    "package": "@fontsource/roboto-mono",
+    "version": "5.3.0",
+    "license": "OFL-1.1",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/fontsource/font-files.git",
+      "directory": "fonts/google/roboto-mono"
+    },
+    "notices": [
+      "third-party/licenses/@fontsource__roboto-mono/LICENSE"
+    ]
+  },
+  {
+    "package": "@reduxjs/toolkit",
+    "version": "2.13.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/reduxjs/redux-toolkit.git"
+    },
+    "notices": [
+      "third-party/licenses/@reduxjs__toolkit/LICENSE"
+    ]
+  },
+  {
+    "package": "@remix-run/route-pattern",
+    "version": "0.22.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/remix-run/remix.git",
+      "directory": "packages/route-pattern"
+    },
+    "notices": [
+      "third-party/licenses/@remix-run__route-pattern/LICENSE"
+    ]
+  },
+  {
+    "package": "@standard-schema/spec",
+    "version": "1.1.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/standard-schema/standard-schema"
+    },
+    "notices": [
+      "third-party/licenses/@standard-schema__spec/LICENSE"
+    ]
+  },
+  {
+    "package": "@standard-schema/utils",
+    "version": "0.3.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/standard-schema/standard-schema"
+    },
+    "notices": [
+      "third-party/licenses/@standard-schema__utils/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-array",
+    "version": "3.2.2",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-array"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-array/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-color",
+    "version": "3.1.3",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-color"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-color/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-ease",
+    "version": "3.0.2",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-ease"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-ease/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-interpolate",
+    "version": "3.0.4",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-interpolate"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-interpolate/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-path",
+    "version": "3.1.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-path"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-path/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-scale",
+    "version": "4.0.9",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-scale"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-scale/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-shape",
+    "version": "3.2.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-shape"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-shape/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-time",
+    "version": "3.0.4",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-time"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-time/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/d3-timer",
+    "version": "3.0.2",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/d3-timer"
+    },
+    "notices": [
+      "third-party/licenses/@types__d3-timer/LICENSE"
+    ]
+  },
+  {
+    "package": "@types/use-sync-external-store",
+    "version": "0.0.6",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "directory": "types/use-sync-external-store"
+    },
+    "notices": [
+      "third-party/licenses/@types__use-sync-external-store/LICENSE"
+    ]
+  },
+  {
+    "package": "class-variance-authority",
+    "version": "0.7.1",
+    "license": "Apache-2.0",
+    "repository": "https://github.com/joe-bell/cva.git",
+    "notices": [
+      "third-party/licenses/class-variance-authority/LICENSE"
+    ]
+  },
+  {
+    "package": "clsx",
+    "version": "2.1.1",
+    "license": "MIT",
+    "repository": "lukeed/clsx",
+    "notices": [
+      "third-party/licenses/clsx/license"
+    ]
+  },
+  {
+    "package": "cn",
+    "version": "0.5.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/shadcn-ui/cn.git",
+      "directory": "packages/cn"
+    },
+    "notices": [
+      "third-party/licenses/cn/LICENSE"
+    ]
+  },
+  {
+    "package": "cookie-es",
+    "version": "3.1.1",
+    "license": "MIT",
+    "repository": "unjs/cookie-es",
+    "notices": [
+      "third-party/licenses/cookie-es/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-array",
+    "version": "3.2.4",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-array.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-array/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-color",
+    "version": "3.1.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-color.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-color/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-ease",
+    "version": "3.0.1",
+    "license": "BSD-3-Clause",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-ease.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-ease/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-format",
+    "version": "3.1.2",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-format.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-format/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-interpolate",
+    "version": "3.0.1",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-interpolate.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-interpolate/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-path",
+    "version": "3.1.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-path.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-path/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-scale",
+    "version": "4.0.2",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-scale.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-scale/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-shape",
+    "version": "3.2.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-shape.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-shape/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-time",
+    "version": "3.1.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-time.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-time/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-time-format",
+    "version": "4.1.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-time-format.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-time-format/LICENSE"
+    ]
+  },
+  {
+    "package": "d3-timer",
+    "version": "3.0.1",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/d3/d3-timer.git"
+    },
+    "notices": [
+      "third-party/licenses/d3-timer/LICENSE"
+    ]
+  },
+  {
+    "package": "decimal.js-light",
+    "version": "2.5.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/MikeMcl/decimal.js-light.git"
+    },
+    "notices": [
+      "third-party/licenses/decimal.js-light/LICENCE.md"
+    ]
+  },
+  {
+    "package": "es-toolkit",
+    "version": "1.52.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/toss/es-toolkit.git"
+    },
+    "notices": [
+      "third-party/licenses/es-toolkit/LICENSE",
+      "third-party/licenses/es-toolkit/NOTICE"
+    ]
+  },
+  {
+    "package": "eventemitter3",
+    "version": "5.0.4",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/primus/eventemitter3.git"
+    },
+    "notices": [
+      "third-party/licenses/eventemitter3/LICENSE"
+    ]
+  },
+  {
+    "package": "immer",
+    "version": "10.2.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/immerjs/immer.git"
+    },
+    "notices": [
+      "third-party/licenses/immer/LICENSE"
+    ]
+  },
+  {
+    "package": "internmap",
+    "version": "2.0.3",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/mbostock/internmap.git"
+    },
+    "notices": [
+      "third-party/licenses/internmap/LICENSE"
+    ]
+  },
+  {
+    "package": "lucide-react",
+    "version": "1.59.0",
+    "license": "ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/lucide-icons/lucide.git",
+      "directory": "packages/lucide-react"
+    },
+    "notices": [
+      "third-party/licenses/lucide-react/LICENSE"
+    ]
+  },
+  {
+    "package": "react",
+    "version": "19.3.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/react/react.git",
+      "directory": "packages/react"
+    },
+    "notices": [
+      "third-party/licenses/react/LICENSE"
+    ]
+  },
+  {
+    "package": "react-dom",
+    "version": "19.3.1",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/react/react.git",
+      "directory": "packages/react-dom"
+    },
+    "notices": [
+      "third-party/licenses/react-dom/LICENSE"
+    ]
+  },
+  {
+    "package": "react-redux",
+    "version": "9.3.0",
+    "license": "MIT",
+    "repository": "github:reduxjs/react-redux",
+    "notices": [
+      "third-party/licenses/react-redux/LICENSE.md"
+    ]
+  },
+  {
+    "package": "react-router",
+    "version": "8.4.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/remix-run/react-router",
+      "directory": "packages/react-router"
+    },
+    "notices": [
+      "third-party/licenses/react-router/LICENSE.md"
+    ]
+  },
+  {
+    "package": "recharts",
+    "version": "3.8.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/recharts/recharts.git"
+    },
+    "notices": [
+      "third-party/licenses/recharts/LICENSE"
+    ]
+  },
+  {
+    "package": "redux",
+    "version": "5.0.1",
+    "license": "MIT",
+    "repository": "github:reduxjs/redux",
+    "notices": [
+      "third-party/licenses/redux/LICENSE.md"
+    ]
+  },
+  {
+    "package": "redux-thunk",
+    "version": "3.1.0",
+    "license": "MIT",
+    "repository": "github:reduxjs/redux-thunk",
+    "notices": [
+      "third-party/licenses/redux-thunk/LICENSE.md"
+    ]
+  },
+  {
+    "package": "reselect",
+    "version": "5.3.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/reduxjs/reselect.git"
+    },
+    "notices": [
+      "third-party/licenses/reselect/LICENSE"
+    ]
+  },
+  {
+    "package": "scheduler",
+    "version": "0.28.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/react/react.git",
+      "directory": "packages/scheduler"
+    },
+    "notices": [
+      "third-party/licenses/scheduler/LICENSE"
+    ]
+  },
+  {
+    "package": "tailwindcss",
+    "version": "4.3.3",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/tailwindlabs/tailwindcss.git",
+      "directory": "packages/tailwindcss"
+    },
+    "notices": [
+      "third-party/licenses/tailwindcss/LICENSE"
+    ]
+  },
+  {
+    "package": "tiny-invariant",
+    "version": "1.3.3",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/alexreardon/tiny-invariant.git"
+    },
+    "notices": [
+      "third-party/licenses/tiny-invariant/LICENSE"
+    ]
+  },
+  {
+    "package": "tw-animate-css",
+    "version": "1.4.0",
+    "license": "MIT",
+    "repository": "Wombosvideo/tw-animate-css",
+    "notices": [
+      "third-party/licenses/tw-animate-css/LICENSE"
+    ]
+  },
+  {
+    "package": "use-sync-external-store",
+    "version": "1.7.0",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/react/react.git",
+      "directory": "packages/use-sync-external-store"
+    },
+    "notices": [
+      "third-party/licenses/use-sync-external-store/LICENSE"
+    ]
+  },
+  {
+    "package": "victory-vendor",
+    "version": "37.3.6",
+    "license": "MIT AND ISC",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/FormidableLabs/victory"
+    },
+    "notices": [
+      "third-party/licenses/victory-vendor/lib-vendor/d3-format/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-shape/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-array/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-scale/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-color/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-timer/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-time-format/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-interpolate/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-time/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-path/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-voronoi/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/d3-ease/LICENSE",
+      "third-party/licenses/victory-vendor/lib-vendor/internmap/LICENSE",
+      "third-party/licenses/victory-vendor/LICENSE-upstream.txt"
+    ],
+    "notice_source": "https://raw.githubusercontent.com/FormidableLabs/victory/v37.3.6/LICENSE.txt"
+  }
+]

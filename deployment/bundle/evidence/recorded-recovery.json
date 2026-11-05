@@ -1,0 +1,87 @@
+{
+  "run": "report-recorded-02",
+  "cart_id": "bfba1952afa632e58c31cd50",
+  "request": "Find one pair of leather shoes. My maximum is $900 including shipping and tax.",
+  "events": [
+    {
+      "action": "click",
+      "name": "Add strategia shoes leather loafers to cart",
+      "cart_version": 1,
+      "elapsed_seconds": 3.63,
+      "decision": null,
+      "facts": []
+    },
+    {
+      "action": "finish",
+      "name": "",
+      "cart_version": 2,
+      "elapsed_seconds": 7.16,
+      "decision": "insufficient_evidence",
+      "facts": [
+        {
+          "field": "material",
+          "required": "leather",
+          "observed": null
+        },
+        {
+          "field": "unit",
+          "required": "pair",
+          "observed": "pair"
+        }
+      ]
+    },
+    {
+      "action": "click",
+      "name": "Remove strategia shoes leather loafers",
+      "cart_version": 3,
+      "elapsed_seconds": 13.24,
+      "decision": null,
+      "facts": []
+    },
+    {
+      "action": "click",
+      "name": "Products",
+      "cart_version": 3,
+      "elapsed_seconds": 15.72,
+      "decision": null,
+      "facts": []
+    },
+    {
+      "action": "click",
+      "name": "Add Brown Leather Shoes to cart",
+      "cart_version": 4,
+      "elapsed_seconds": 18.21,
+      "decision": null,
+      "facts": []
+    },
+    {
+      "action": "finish",
+      "name": "",
+      "cart_version": 4,
+      "elapsed_seconds": 23.25,
+      "decision": "allow",
+      "facts": [
+        {
+          "field": "material",
+          "required": "leather",
+          "observed": "leather"
+        },
+        {
+          "field": "unit",
+          "required": "pair",
+          "observed": "pair"
+        }
+      ]
+    }
+  ],
+  "approval": {
+    "quote_id": "d890ef49969412999af3ab37",
+    "quote_sha256": "d6073feb5b01cb5e94dd818ecc3dd8c7932fec5757548656ebb82c6e03385856",
+    "intent_sha256": "9de2b4025fb7db2bdf4963a95c3e062c7d0599e0ac530aba46d9d74f4e9c235e",
+    "cart_version": 4,
+    "total_cents": 8208,
+    "status": "historical_approved_now_expired",
+    "payment_calls": 0
+  },
+  "source_result_sha256": "ee6ad95fdf34d83ca1f517170b7f2babf593e315967dd340a6f60712a70a1a56"
+}

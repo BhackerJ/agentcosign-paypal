@@ -155,3 +155,23 @@ class JudgeTests(unittest.TestCase):
             self.assertTrue(profile_intent.status(self.apps[0].s,self.apps[0].task)['confirmed'])
             self.assertFalse(profile_intent.status(self.apps[1].s,self.apps[1].task)['confirmed'])
             browser.close()
+
+    def test_shopper_finish_uses_authorization_http_api(self):
+        from shopper import review_cart
+        from shop import token_hash
+        import time
+        a=self.apps[0]
+        buyer=a.s.buyer_session(a.s.buyer_exchange(a.s.buyer_access(a.task)))
+        profile_intent.confirm(a.s,a.task,buyer,digest(a.s.snapshot(a.task)['intent']))
+        with a.s.db:a.s.db.execute('UPDATE carts SET visit_hash=?,visit_expires=? WHERE task_id=?',(token_hash('review-test'),time.time()+60,a.task))
+        visit=a.s.exchange('review-test');sku=next(iter(a.s.catalog['products']))
+        a.s.mutate(visit,a.s.session(visit)['csrf'],sku,1);a.s.runner_finished(a.task,'done')
+        a.agent_api_origin=self.origin
+        result=review_cart(a)
+        self.assertEqual(result['cart_id'],a.s.snapshot(a.task)['cart_id'])
+        self.assertEqual(result['assessment']['intent_aware_quote_policy']['gate'],'allow')
+        self.assertEqual(result['assessment']['actual_authorization_gate']['gate'],'insufficient_evidence')
+        self.assertIsNone(a.s.approval_for(a.task,result['quote']))
+        a.agent_headers={'X-Agent-Session':self.rows[1]['id']}
+        import urllib.error
+        with self.assertRaises(urllib.error.HTTPError):review_cart(a)

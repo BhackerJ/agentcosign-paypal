@@ -1,3 +1,27 @@
+# Latest isolated-copy verification — November 4, 2026
+
+A fresh temporary source copy excluded state, credentials, private corpus and
+video assets. The existing isolated Python 3.12 environment was reused; this was
+not a fresh dependency installation or an independent external-person test.
+Model, Channel3 and PayPal credential environment variables were removed.
+
+- `PYTHONPATH=app:tests python -m unittest discover -s tests`: **75 passed**.
+- `python evaluate_release.py`: **8 controlled cases**, zero intent-policy
+  disagreements with development/source-review labels. These are not human labels,
+  held-out measurements or a real-world prevented-purchase rate.
+- `python tools/check_local.py`: both fixture scenarios passed English UI,
+  authentication and pending-confirmation startup/API checks; **provider calls=0**.
+
+Local HTTP binding required execution outside the restricted filesystem sandbox.
+No live model, Channel3 search, PayPal order/capture, deployment, push or upload was
+performed. The exact historical report assets are deliberately not included in this
+copy and their absence is documented in JUDGE-PATH.md.
+
+Earlier clean installation/public-clone checks below retain their original dates
+and scope; they do not prove availability of today's unpushed local changes.
+
+---
+
 # Clean-environment reproduction
 
 Date: November 3, 2026. Source copied into an isolated temporary directory, separate from the original project and private corpus. New Python 3.12.11 virtual environment, public pinned dependencies, Chromium installation checked. Exact installed package versions are saved in requirements.lock.txt.

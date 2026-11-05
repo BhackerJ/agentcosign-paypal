@@ -1,13 +1,14 @@
-# Review template only: not applied. Replace image URL with an approved private image.
-# Publishing that image and creating the paid service require owner confirmation.
+# Review template only. Do not apply, create or resume a service yet.
+# Existing Render service stays suspended and auto-deploy stays off.
 services:
   - type: web
-    name: agentcosign-p0
-    runtime: image
-    image:
-      url: REPLACE_WITH_PRIVATE_REGISTRY_IMAGE_AND_DIGEST
-    plan: standard
+    name: agentcosign-paypal-p0
+    runtime: docker
+    dockerfilePath: ./deployment/Dockerfile
+    dockerContext: .
+    plan: 1c-2g # Existing service compute size; verify before applying.
     numInstances: 1
+    autoDeployTrigger: 'off'
     healthCheckPath: /health
     disk:
       name: judge-state
@@ -15,8 +16,17 @@ services:
       sizeGB: 1
     envVars:
       - key: PUBLIC_ORIGIN
-        sync: false
+        value: https://agentcosign-paypal-p0.onrender.com
+      - key: PORT
+        value: "10000"
+      - key: MAX_LIVE_RUNS
+        value: "40"
+      - key: MAX_ACTIVE_SESSIONS
+        value: "200"
       - key: ANTHROPIC_API_KEY
         sync: false
-# PAYPAL_CONFIG is deliberately absent: hosted acceptance must not create payments.
-# Do not copy the paid run's SQLite stores or cookies into this service.
+      - key: CHANNEL3_API_KEY
+        sync: false
+# No PAYPAL_CONFIG. Never copy historical stores or credentials into this image.
+# MAX_LIVE_RUNS is a cumulative per-kind application limit, not a billing cap.
+# Reviewed replay bundle must be explicitly approved for publication before Git deployment.
