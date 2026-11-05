@@ -19,8 +19,10 @@ Read-only evidence never grants current purchase authority.
 
 See [judge instructions](submission/JUDGE-PATH.md) for the exact click path and
 [Docker review](deployment/REVIEW.md) for verification scope.
-The candidate bundle is local and not yet published. Render remains suspended;
-no working public judge URL is claimed.
+The approved v5 bundle and source are published on `codex/p0-judge-entry`.
+The actual Render HTTPS/live workflow passed acceptance, then was suspended again
+under the owner’s cost-control instruction. See [hosted acceptance](submission/HOSTED-V5-ACCEPTANCE.md).
+The URL https://agentcosign-paypal-p0.onrender.com is reserved but currently suspended.
 
 With the reviewed `deployment/bundle` present, build and run recorded mode:
 
@@ -39,8 +41,8 @@ The one-link server disables PayPal actions; saved PayPal evidence is separate.
 ## Start here
 
 The Render service is **suspended by owner request**; it is not a working judge
-entry. The latest Channel3/report changes remain local and have not been pushed.
-The public repository therefore does not yet contain this complete review version.
+entry. The latest Channel3/report source and minimized replay assets are now public.
+Hosted acceptance passed; restore the service before distributing its URL to judges.
 
 Use Python 3.12 from the repository root:
 
@@ -95,7 +97,7 @@ human approval click appears in an inset. That approval is now expired and grant
 no current payment authority. The local release candidate includes only the minimized replay bundle described
 in [PUBLIC-RESOURCES.md](PUBLIC-RESOURCES.md); raw source data remains private.
 [CONVERSATION.md](CONVERSATION.md) describes the report adapter. Publishing the
-bundle remains subject to the resource review and owner release approval.
+bundle was published with owner approval under the documented analytical-demo use assumption.
 
 ## Optional PayPal sandbox reproduction
 

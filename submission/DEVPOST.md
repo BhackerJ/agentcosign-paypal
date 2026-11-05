@@ -86,8 +86,13 @@ overlay while the application remains visible. There is no synthetic voice.
 
 ## Submission fields — owner review required
 - Repository: https://github.com/BhackerJ/agentcosign-paypal
-- Latest Channel3 changes remain local and are not yet pushed.
-- Working access: [judge reproduction instructions](JUDGE-PATH.md); Render currently suspended. The intended hosted live route uses operator-provided model/Channel3 access. A minimized historical replay bundle is prepared locally but not yet published.
+- Approved v5 Channel3/report source and reviewed replay assets are published on codex/p0-judge-entry.
+- Working access: [judge reproduction instructions](JUDGE-PATH.md); Render currently suspended. The intended hosted live route uses operator-provided model/Channel3 access. The minimized historical replay bundle is now included in the public branch.
 - Review video: owner-cut-v4-ending, 2:21.93, English owner narration; [canonical version and run boundaries](../VIDEO.md). Public URL pending approval.
 - Team, final category selections and judging credentials: owner confirmation pending.
 - No video upload or Devpost submission has occurred.
+
+Current access update: see HOSTED-V5-ACCEPTANCE.md. Actual hosted recovery and
+automated test approval passed in a new $86.28 cart; service suspended afterward
+for cost control. This is separate from the video’s human-approved $82.08 run
+and the historical $210.34 PayPal purchase.

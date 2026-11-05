@@ -1,3 +1,14 @@
+# Current release: approved v5 published and hosted acceptance passed
+
+See [HOSTED-V5-ACCEPTANCE](submission/HOSTED-V5-ACCEPTANCE.md). Source/assets commit
+5137330 is published; real HTTPS/shopper recovery and automated test approval passed
+in a new $86.28 cart. Zero new PayPal payments. Service suspended after acceptance
+per owner instruction, state retained; video upload and formal submission pending.
+
+Earlier dated records below retain their historical scope.
+
+---
+
 # Live return fix and offline positive acceptance — 2026-11-04
 
 Live return aliases preserve the existing session/cart and mode. A separate Linux

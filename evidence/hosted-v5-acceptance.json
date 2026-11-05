@@ -1,0 +1,22 @@
+{
+  "run": "hosted-v5-acceptance-01",
+  "commit": "5137330",
+  "cart_id": "89dc3866f8608c9c77bfb3b5",
+  "cart_version": 4,
+  "intent_confirmation": "automated test buyer",
+  "purchase_approval": "automated test buyer",
+  "real_model_and_channel3": true,
+  "same_cart_reload": true,
+  "other_context_isolated": true,
+  "paypal_actions": "disabled",
+  "new_paypal_payments": 0,
+  "duration_seconds": 33,
+  "total_cents": 8628,
+  "deployed_commit": "5137330fea43ad9257f2031aa8f13df28fa57487",
+  "deploy_id": "dep-dbltealbedkc73ah8n30",
+  "replay_image_hashes_verified": 48,
+  "provider_action_paths_refused": 5,
+  "native_pause_verified": true,
+  "post_acceptance": "suspended; state disk retained",
+  "scope": "New hosted integration acceptance. Intent and exact quote approval automated by test buyer, not human. Not a natural recovery-rate measurement or new PayPal purchase."
+}

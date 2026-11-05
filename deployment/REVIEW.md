@@ -1,3 +1,13 @@
+# Published v5 hosted acceptance
+
+The approved bundle and source have been published. Render built commit 5137330
+and actual clean-browser HTTPS/live recovery and automated test-buyer approval
+passed. It is now suspended again. See
+[HOSTED-V5-ACCEPTANCE](../submission/HOSTED-V5-ACCEPTANCE.md).
+Prior pending-publication/hosted-acceptance notes below are historical.
+
+---
+
 # Current follow-up: same-cart return and offline positive acceptance
 
 The live return fix and no-external-service positive container test are complete.

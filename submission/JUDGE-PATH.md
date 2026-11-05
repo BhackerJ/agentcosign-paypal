@@ -2,11 +2,12 @@
 
 ## Availability
 
-This is the local release candidate, not a currently deployed judging link.
-Render is suspended. After owner-approved publication/deployment, replace this
-notice with the verified HTTPS URL and access instructions. Hosted acceptance
-of this exact candidate is still pending. Judges should not need installation or
-provider keys for the intended hosted route.
+Source and reviewed replay assets are public on `codex/p0-judge-entry`. The actual
+HTTPS endpoint https://agentcosign-paypal-p0.onrender.com passed clean-browser
+acceptance, including real shopper recovery and automated test-buyer approval.
+It was then suspended under the owner's post-acceptance cost-control instruction.
+Restore it before giving the hosted link to judges. See HOSTED-V5-ACCEPTANCE.md.
+No installation or judge-owned provider key is needed when the service is online.
 
 ## Recorded experience — no credentials or payment
 

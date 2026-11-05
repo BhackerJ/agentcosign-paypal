@@ -18,10 +18,9 @@ and Channel3-derived evidence retain their own applicable use conditions; this c
 third-party rights. Preserve upstream notices. No service-evaluation diagnostics,
 24-question packet, raw Channel3 dumps or private corpus are in this candidate.
 
-The bundle remains Git-ignored to prevent accidental publication. The local
-candidate archive deliberately includes it for owner inspection. After approval,
-explicitly include the reviewed assets in the release route; source-only pushing
-will not include them. No publication or deployment has occurred in this step.
+The owner approved v5 publication. The reviewed bundle was explicitly force-added
+and published with the source at commit 5137330; private raw corpus remains absent.
+The broad ignore rule remains a guard against accidentally adding other bundles.
 
 ## Terms and provenance check — November 4, 2026
 
@@ -63,6 +62,9 @@ public screenshot/video release. The owner has directed preparation to continue 
 use assumption documented in submission/NISOLO-DISPLAY-REVIEW.md. A separate
 authorization letter is not an automatic prerequisite. Full downloadable screenshot
 distribution remains a separate scope for publication review. No permission or
-organizer clearance is claimed. The local-only boundary currently comes from the
-owner’s pending publication approval, not a confirmed Nisolo or organizer ban.
+organizer clearance is claimed. The owner subsequently approved v5 publication, which is complete. No confirmed
+Nisolo or organizer ban is claimed.
 No material has been silently substituted.
+
+Publication update: owner-approved v5 assets and source are now public. See
+submission/HOSTED-V5-ACCEPTANCE.md. No affirmative merchant authorization is claimed.

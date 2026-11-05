@@ -1,3 +1,13 @@
+# Current publication and hosted acceptance
+
+Approved v5 source and replay assets are public on `codex/p0-judge-entry`.
+Actual Render HTTPS/live acceptance passed; compute was suspended afterward
+under the owner’s cost-control instruction. See
+[acceptance record](submission/HOSTED-V5-ACCEPTANCE.md). Earlier local-preview
+observations below retain their original scope.
+
+---
+
 # One-link judge experience — local preview
 
 Open http://127.0.0.1:64340 while the local preview is running. No installation or
