@@ -94,10 +94,18 @@ order or fulfillment occurs.
 
 Updated report UI is a labeled read-only review of saved events; the original
 human approval click appears in an inset. That approval is now expired and grants
-no current payment authority. The local release candidate includes only the minimized replay bundle described
+no current payment authority. The public release includes only the minimized replay bundle described
 in [PUBLIC-RESOURCES.md](PUBLIC-RESOURCES.md); raw source data remains private.
-[CONVERSATION.md](CONVERSATION.md) describes the report adapter. Publishing the
+[CONVERSATION.md](CONVERSATION.md) describes the report adapter. The
 bundle was published with owner approval under the documented analytical-demo use assumption.
+
+## Separate hosted acceptance
+
+`hosted-v5-acceptance-01` used a new **$86.28** cart. Real Channel3 data and the
+browser shopper exercised the staged refusal/replacement flow. Intent confirmation
+and exact purchase approval were performed by an **automated test buyer**, not a
+human. No payment occurred. This is separate from both video runs above.
+See [the hosted acceptance record](submission/HOSTED-V5-ACCEPTANCE.md).
 
 ## Optional PayPal sandbox reproduction
 

@@ -48,8 +48,9 @@ local merchant receipt. The video uses that run's later read-only result footage
 it is a different cart and order, not a payment for the new Channel3 purchase.
 This does not establish concurrent crash safety or universal exactly-once behavior.
 
-75 local regression tests passed in a fresh source copy using an existing isolated
-Python environment; see the reproduction record. These
+An earlier source-copy check passed 75 tests using an existing isolated Python
+environment. The published v5 clone subsequently passed 85 regression tests; see
+HOSTED-V5-ACCEPTANCE.md and the reproduction record. These
 are software checks, not shopper accuracy measurements. A 24-case human-review
 packet is prepared; human labeling and its paired evaluation are pending. AI
 assistant labels are not counted as human evidence. No comparative error-rate
@@ -86,7 +87,7 @@ overlay while the application remains visible. There is no synthetic voice.
 
 ## Submission fields — owner review required
 - Repository: https://github.com/BhackerJ/agentcosign-paypal
-- Approved v5 Channel3/report source and reviewed replay assets are published on codex/p0-judge-entry.
+- Approved v5 Channel3/report source and reviewed replay assets are merged into the default main branch.
 - Working access: [judge reproduction instructions](JUDGE-PATH.md); Render currently suspended. The intended hosted live route uses operator-provided model/Channel3 access. The minimized historical replay bundle is now included in the public branch.
 - Review video: owner-cut-v4-ending, 2:21.93, English owner narration; [canonical version and run boundaries](../VIDEO.md). Public URL pending approval.
 - Team, final category selections and judging credentials: owner confirmation pending.

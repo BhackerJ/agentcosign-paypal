@@ -1,4 +1,4 @@
-# Current release: approved v5 published and hosted acceptance passed
+# Current release: reviewed experience on default main; hosted acceptance passed
 
 See [HOSTED-V5-ACCEPTANCE](submission/HOSTED-V5-ACCEPTANCE.md). Source/assets commit
 5137330 is published; real HTTPS/shopper recovery and automated test approval passed

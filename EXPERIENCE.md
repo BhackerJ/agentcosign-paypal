@@ -1,6 +1,6 @@
 # Current publication and hosted acceptance
 
-Approved v5 source and replay assets are public on `codex/p0-judge-entry`.
+Approved v5 source and replay assets are public on the default `main` branch.
 Actual Render HTTPS/live acceptance passed; compute was suspended afterward
 under the owner’s cost-control instruction. See
 [acceptance record](submission/HOSTED-V5-ACCEPTANCE.md). Earlier local-preview

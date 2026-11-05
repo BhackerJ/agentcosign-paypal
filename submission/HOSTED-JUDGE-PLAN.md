@@ -1,3 +1,23 @@
+# Historical hosted judge implementation plan — superseded
+
+This file preserves an earlier proposal, not current setup instructions. Its
+statements about missing replay assets, judge.py Docker startup, unpublished work
+and owner-cut-v2 video describe the old proposal and no longer apply.
+
+Current entry: default `main` branch README.md and [judge steps](JUDGE-PATH.md).
+The image starts app/experience.py and ships the minimized replay/evidence bundle.
+Canonical video is owner-cut-v4-ending, 2:21.93, documented in ../VIDEO.md.
+Actual hosted acceptance passed; service was suspended afterward for cost control.
+See [HOSTED-V5-ACCEPTANCE.md](HOSTED-V5-ACCEPTANCE.md).
+
+The current three runs remain distinct: video human approval $82.08; hosted
+acceptance automated test-buyer approval $86.28; earlier PayPal purchase $210.34.
+No new payment is needed, and video upload/submission still await owner approval.
+
+---
+
+## Archived proposal (historical only)
+
 # Hosted judge experience — proposed next implementation
 
 Status: proposed; not deployed. Render stays suspended until owner authorizes

@@ -2,7 +2,7 @@
 
 ## Availability
 
-Source and reviewed replay assets are public on `codex/p0-judge-entry`. The actual
+Source and reviewed replay assets are public on the default `main` branch. The actual
 HTTPS endpoint https://agentcosign-paypal-p0.onrender.com passed clean-browser
 acceptance, including real shopper recovery and automated test-buyer approval.
 It was then suspended under the owner's post-acceptance cost-control instruction.
@@ -28,14 +28,16 @@ was discovered afterward; no historical live CoSign block is claimed.
 ## Optional new live shopper — server credentials required
 
 1. Select **Try a new live shopper**. A new isolated cart/session is created.
-2. Enter “Find one pair of leather shoes under $900.” Review the extracted
+2. Read the **Demo terms and data notice**, check the agreement box and choose
+   **Agree to terms and start**. This records terms consent, not purchase approval.
+3. Enter “Find one pair of leather shoes under $900.” Review the extracted
    requirements and confirm only if they match your intent.
-3. Start the shopper. This preset challenge assigns a real Channel3 candidate
+4. Start the shopper. This preset challenge assigns a real Channel3 candidate
    missing required evidence. CoSign pauses eligibility; the controller reopens
    the cart and the model chooses a replacement through browser Remove/Add.
-4. Inspect the exact quote and evidence, then choose **Approve exact purchase**
+5. Inspect the exact quote and evidence, then choose **Approve exact purchase**
    if appropriate. This is a new approval in the new cart. Payment is disabled.
-5. Return links preserve that cart. Keep its run identity separate from recordings.
+6. Return links preserve that cart. Keep its run identity separate from recordings.
 
 The hosted operator must supply model/Channel3 access; judges must not supply keys.
 Search results, prices and totals vary. Missing suitable candidates, provider
@@ -46,23 +48,25 @@ tax and pair units are simulated, and no source retailer order is placed.
 ## Developer reproduction
 
 README.md includes credential-free tests and the recorded-mode Docker command.
-The candidate archive contains `deployment/bundle`; a source-only checkout without
-that bundle cannot build the exact replay image. For live standalone reproduction
+The default public checkout includes `deployment/bundle`, so no private replay
+directory is needed for the recorded-mode Docker build. For live standalone reproduction
 see CHANNEL3.md. TESTING.md documents the separate optional PayPal sandbox path;
 no new payment is required for this review or publication.
 
-## Before releasing these instructions
+## Current verification and remaining access work
 
-Verify the public code/assets from a clean clone, actual hosted HTTPS behavior,
-server-side credentials and judging-period access/capacity. Complete source imagery
-and data-display rights review (PUBLIC-RESOURCES.md). Put any necessary private
-test credentials only in a confirmed private channel, never in public prose.
+The public v5 clone matched its 268-file candidate manifest; 85 regression tests
+passed. Actual Render HTTPS/live acceptance passed, then compute was suspended.
+Restore service and confirm judging-period model capacity and cost arrangements
+before distributing the hosted URL. Do not ask judges to obtain provider keys.
+See [hosted acceptance](HOSTED-V5-ACCEPTANCE.md) and
+[resource use assumptions](../PUBLIC-RESOURCES.md). Private credentials never belong
+in public testing prose.
 
-Hosted product-data use terms and disclosures are available at `/demo-terms`.
-See [public-resource review](../PUBLIC-RESOURCES.md) for the remaining Nisolo screenshot/video release decision.
+That hosted acceptance used a separate $86.28 cart with automated test-buyer
+intent confirmation and purchase approval. The recorded $82.08 human approval
+and $210.34 PayPal result are different runs. No new PayPal payment is needed.
 
-Before a new live session, read the Demo terms, check the agreement box and choose
-**Agree to terms and start**. The server saves the session, version, document
-SHA-256 and UTC timestamp; this consent does not confirm intent or approve a purchase.
-Recorded inspection does not require agreement. A changed terms version/hash
-requires new consent before live actions.
+The server saves session, terms version, document SHA-256 and UTC timestamp.
+Recorded inspection does not require agreement. Changed terms require consent
+again before live actions; /review-terms preserves an existing cart/session.
